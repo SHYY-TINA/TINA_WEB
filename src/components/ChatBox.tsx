@@ -16,11 +16,15 @@ const Layout = styled.main`
 `;
 
 const ChatBoxContainer = styled.div<{ radios: boolean; color: boolean }>`
-  padding: 8px 7px;
+  padding: ${({ radios }) => (radios ? "8px 7px" : "8px 12px")};
   border-radius: 16px;
   background-color: ${({ color }) => (color ? theme.primaryPink : theme.white)};
   color: ${({ color }) => (color ? theme.white : theme.black)};
-  border-radius: ${({ radios }) => (radios ? "0px 12px 12px 12px" : "12px")};
+  border-radius: ${({ radios, color }) => {
+    if (radios && color) return "12px 0 12px 12px";
+    if (radios && !color) return "0px 12px 12px 12px";
+    return "12px";
+  }};
   font-size: 14px;
   font-style: normal;
   font-weight: regular;
