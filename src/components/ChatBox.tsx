@@ -20,7 +20,7 @@ const ChatBoxContainer = styled.div<{ radios: boolean; color: boolean }>`
   border-radius: 16px;
   background-color: ${({ color }) => (color ? theme.primaryPink : theme.white)};
   color: ${({ color }) => (color ? theme.white : theme.black)};
-  border-radius: ${({ radios }) => (radios ? "0px 16px 16px 16px" : "16px")};
+  border-radius: ${({ radios }) => (radios ? "0px 12px 12px 12px" : "12px")};
   font-size: 14px;
   font-style: normal;
   font-weight: regular;
