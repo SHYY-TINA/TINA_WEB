@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "../shared/style/theme";
 import flex from "../shared/style/flex";
-import Heart from "../assets/icons/heart.svg";
+import Heart from "../assets/icons/heart";
 import Trash from "../assets/icons/trash.svg";
 
 interface ResultProps {
@@ -35,9 +35,6 @@ const HeartContainer = styled.div`
   color: #ab6e6b;
   font-weight: 500;
 `;
-const Icon = styled.img`
-  cursor: pointer;
-`;
 
 const Result = ({ name, mbti, editMode, percent }: ResultProps) => {
   return (
@@ -45,10 +42,10 @@ const Result = ({ name, mbti, editMode, percent }: ResultProps) => {
       <Text>{name}</Text>
       <MBTI>{mbti}</MBTI>
       {editMode ? (
-        <Icon src={Trash} />
+        <Trash />
       ) : (
         <HeartContainer>
-          <img src={Heart} />
+          <Heart />
           <span>{percent}</span>%
         </HeartContainer>
       )}
