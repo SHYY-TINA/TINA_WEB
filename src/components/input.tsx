@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState, ChangeEvent } from "react";
-import theme from "../shared/style/flex";
+import theme from "../shared/style/theme";
 import InputWarningIcon from "../assets/icons/inputWarning.png";
 
 interface InputProps {

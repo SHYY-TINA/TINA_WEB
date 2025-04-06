@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import flex from "../shared/style/theme";
-import theme from "../shared/style/flex";
+import flex from "../shared/style/flex";
+import theme from "../shared/style/theme";
 
 interface ChatBoxProps {
   chatData: string;
