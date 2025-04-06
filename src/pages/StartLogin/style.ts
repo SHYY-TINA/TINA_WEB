@@ -9,9 +9,7 @@ export const ModalOverlay = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flex.CENTER}
 `;
 export const Layout = styled.main`
   ${flex.COLUMN_VERTICAL}
