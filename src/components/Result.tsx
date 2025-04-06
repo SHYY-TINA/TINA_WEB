@@ -13,7 +13,6 @@ interface ResultProps {
 
 const Layout = styled.main`
   ${flex.COLUMN_CENTER}
-  width: fit-content;
   background-color: ${theme.white};
   padding: 16px 24px 9px 24px;
   border-radius: 12px;
