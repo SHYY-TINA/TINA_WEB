@@ -39,7 +39,7 @@ export const PinkBtn = styled.button`
   border-radius: 0 0 0 12px;
   color: ${theme.primaryPink};
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
 `;
 export const Line = styled.div`
   border-left: 1px solid ${theme.white};
@@ -52,7 +52,7 @@ export const BlackBtn = styled.button`
   border-radius: 0 0 12px 0;
   color: ${theme.brown4};
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
 `;
 export const Highlight = styled.span`
   color: ${theme.primaryPink};
