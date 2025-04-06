@@ -12,7 +12,6 @@ interface ChatBoxProps {
 const Layout = styled.main`
   ${flex.FLEX}
   gap: 4px;
-  font-family: Paperlogy;
 `;
 
 const ChatBoxContainer = styled.div<{ radios: boolean; color: boolean }>`
