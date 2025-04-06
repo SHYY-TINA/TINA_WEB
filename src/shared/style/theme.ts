@@ -1,4 +1,5 @@
 const theme = {
+  bg: "#FEE500",
   white: "#FFFFFF",
   black: "#000000",
   primaryPink: "#FF8491",
