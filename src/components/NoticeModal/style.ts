@@ -5,7 +5,6 @@ import theme from "../../shared/style/theme";
 export const Layout = styled.main`
   ${flex.COLUMN_CENTER}
   background-color: rgba(255, 255, 255, 0.90);
-
   border-radius: 12px;
 `;
 export const TextContainer = styled.div<{ isResult: boolean }>`
