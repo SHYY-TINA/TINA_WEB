@@ -14,6 +14,9 @@ const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
   const goBack = () => {
     navigate(-1);
   };
+  const goDetail = () => {
+    navigate("/detail-result");
+  };
   return (
     <S.Layout>
       <S.Header>
@@ -99,7 +102,7 @@ const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
         )}
         <S.BtnContainer>
           <S.SaveBtn>결과 저장하기</S.SaveBtn>
-          {isOther && <S.More>속마음 더 보기</S.More>}
+          {isOther && <S.More onClick={goDetail}>속마음 더 보기</S.More>}
         </S.BtnContainer>
       </S.Main>
     </S.Layout>

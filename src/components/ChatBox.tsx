@@ -1,18 +1,23 @@
 import styled from "styled-components";
 import flex from "../shared/style/flex";
 import theme from "../shared/style/theme";
+import { useState } from "react";
 
 interface ChatBoxProps {
   chatData: string;
   date: string;
   isFirstChat: boolean;
   isMyChat: boolean;
+  prevIsMyChat?: boolean;
+  onClick?: () => void;
+  enableReveal?: boolean;
 }
 
-const Layout = styled.main<{ isMyChat: boolean }>`
+const Layout = styled.main<{ isMyChat: boolean; showPadding: boolean }>`
   ${flex.FLEX}
   gap: 4px;
   margin-left: ${({ isMyChat }) => isMyChat && "auto"};
+  padding-top: ${({ showPadding }) => (showPadding ? "20px" : "0")};
 `;
 
 const ChatBoxContainer = styled.div<{ radios: boolean; color: boolean }>`
@@ -31,6 +36,7 @@ const ChatBoxContainer = styled.div<{ radios: boolean; color: boolean }>`
   font-weight: regular;
   line-height: 160%;
   letter-spacing: -0.014px;
+  cursor: ${({ color }) => (!color ? "pointer" : "default")};
 `;
 
 const DateContainer = styled.span`
@@ -40,9 +46,31 @@ const DateContainer = styled.span`
   font-weight: 400;
 `;
 
-const ChatBox = ({ chatData, date, isFirstChat, isMyChat }: ChatBoxProps) => {
+const Highlighted = styled.span`
+  color: ${theme.primaryPink};
+`;
+
+const ChatBox = ({
+  chatData,
+  date,
+  isFirstChat,
+  isMyChat,
+  prevIsMyChat,
+  onClick,
+  enableReveal = false,
+}: ChatBoxProps) => {
+  const [revealed, setRevealed] = useState(false);
+  const showPadding = prevIsMyChat !== undefined && prevIsMyChat !== isMyChat;
+
+  const handleClick = () => {
+    if (!isMyChat && enableReveal) {
+      setRevealed(!revealed);
+    }
+    onClick?.();
+  };
+
   return (
-    <Layout isMyChat={isMyChat}>
+    <Layout isMyChat={isMyChat} showPadding={showPadding}>
       {isMyChat ? (
         <>
           <DateContainer>{date}</DateContainer>
@@ -52,8 +80,12 @@ const ChatBox = ({ chatData, date, isFirstChat, isMyChat }: ChatBoxProps) => {
         </>
       ) : (
         <>
-          <ChatBoxContainer radios={isFirstChat} color={isMyChat}>
-            {chatData}
+          <ChatBoxContainer
+            radios={isFirstChat}
+            color={isMyChat}
+            onClick={handleClick}
+          >
+            {revealed && enableReveal ? <Highlighted>☛ {chatData}</Highlighted> : chatData}
           </ChatBoxContainer>
           <DateContainer>{date}</DateContainer>
         </>
