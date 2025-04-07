@@ -3,17 +3,22 @@ import LeftArrow from "../../assets/icons/leftArrow";
 import Arrow from "../../assets/icons/arrow";
 import Heart from "../../assets/icons/heart";
 import ChatBox from "../../components/ChatBox";
+import { useNavigate } from "react-router-dom";
 
 interface OtherResultProps {
   isOther?: boolean;
 }
 
 const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
     <S.Layout>
       <S.Header>
         <S.HighHeader>
-          <div style={{ position: "absolute", left: 0 }}>
+          <div style={{ position: "absolute", left: 0 }} onClick={goBack}>
             <LeftArrow />
           </div>
           <S.FromContainer>
