@@ -11,6 +11,7 @@ type ButtonMode =
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   mode: ButtonMode;
+  text: string;
 }
 
 interface StyledButtonProps {
@@ -18,7 +19,7 @@ interface StyledButtonProps {
   isClicked: boolean;
 }
 
-const Button = ({ mode, ...props }: ButtonProps) => {
+const Button = ({ mode, text, ...props }: ButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,7 +33,9 @@ const Button = ({ mode, ...props }: ButtonProps) => {
       isClicked={isClicked}
       onClick={handleClick}
       {...props}
-    />
+    >
+      {text}
+    </StyledButton>
   );
 };
 
