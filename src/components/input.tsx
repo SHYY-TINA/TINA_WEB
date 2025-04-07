@@ -31,6 +31,8 @@ const Layout = styled.input<StyledInputProps>`
   ::placeholder {
     color: ${theme.brown3};
   }
+  font-size: 12px;
+  font-weight: 400;
   &:focus {
     outline: none;
   }
