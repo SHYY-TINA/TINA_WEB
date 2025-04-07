@@ -17,7 +17,7 @@ import ISTJ from "../../assets/illustration/ISTJ.png";
 import ISTP from "../../assets/illustration/ISTP.png";
 
 interface MbtiResultCharProps {
-  isMine: boolean;
+  isMine?: boolean;
   mbti: string;
 }
 
@@ -40,7 +40,7 @@ const mbtiImageMap: Record<string, string> = {
   ISTP,
 };
 
-const MbtiResultChar = ({ isMine, mbti }: MbtiResultCharProps) => {
+const MbtiResultChar = ({ isMine = false, mbti }: MbtiResultCharProps) => {
   return (
     <S.Layout>
       <S.CharacterWrapper>
