@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { useState, ChangeEvent } from "react";
 import theme from "../shared/style/theme";
 import InputWarningIcon from "../assets/icons/inputWarning.png";
 
 interface InputProps {
   placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   hasWarning?: boolean;
 }
 
@@ -45,20 +46,21 @@ const WarningIcon = styled.img`
   transform: translateY(-50%);
 `;
 
-const Input = ({ placeholder, hasWarning = false }: InputProps) => {
-  const [value, setValue] = useState("");
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+const Input = ({
+  placeholder,
+  value,
+  onChange,
+  hasWarning = false,
+}: InputProps) => {
+  const hasValue = value.trim() !== "";
 
   return (
     <InputWrapper>
       <Layout
         placeholder={placeholder}
         value={value}
-        onChange={handleChange}
-        hasValue={value !== ""}
+        onChange={onChange}
+        hasValue={hasValue}
         hasWarning={hasWarning}
       />
       {hasWarning && <WarningIcon src={InputWarningIcon} />}
