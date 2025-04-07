@@ -24,7 +24,7 @@ export const Layout = styled.main`
     #fff;
 `;
 export const SymbolImg = styled.img`
-  margin-top: 96px;
+  padding-top: 145px;
 `;
 export const TextContainer = styled.div`
   ${flex.COLUMN_CENTER}
