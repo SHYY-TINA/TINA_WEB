@@ -1,4 +1,3 @@
-import { useState } from "react";
 import * as S from "./style";
 import YoutHeart from "../../assets/illustration/yourHeart.png";
 import MyHeart from "../../assets/illustration/MyHeart.png";
@@ -9,7 +8,13 @@ import RightArrowBigGray from "../../assets/icons/rightArrowBigGray";
 import LeftArrowBigWhite from "../../assets/icons/leftArrowBigWhite";
 import RightArrowBigWhite from "../../assets/icons/rightArrowBigWhite";
 
-const Choice = () => {
+const Choice = ({
+  index,
+  setIndex,
+}: {
+  index: number;
+  setIndex: (idx: number) => void;
+}) => {
   const ChoiceDetail = [
     {
       title: "너의 속마음",
@@ -32,8 +37,6 @@ const Choice = () => {
       icon: MBTI,
     },
   ];
-
-  const [index, setIndex] = useState(0);
 
   const handlePrev = () => {
     if (index > 0) setIndex(index - 1);
