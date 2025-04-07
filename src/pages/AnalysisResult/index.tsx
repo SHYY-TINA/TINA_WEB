@@ -5,11 +5,10 @@ import Heart from "../../assets/icons/heart";
 import ChatBox from "../../components/ChatBox";
 
 interface OtherResultProps {
-  myName: string;
-  otherName: string;
+  isOther?: boolean;
 }
 
-const OtherResult = ({ myName, otherName }: OtherResultProps) => {
+const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
   return (
     <S.Layout>
       <S.Header>
@@ -18,9 +17,9 @@ const OtherResult = ({ myName, otherName }: OtherResultProps) => {
             <LeftArrow />
           </div>
           <S.FromContainer>
-            {myName}
+            시연
             <Arrow />
-            {otherName}
+            예진
           </S.FromContainer>
         </S.HighHeader>
         <S.LowHeader>
@@ -31,18 +30,37 @@ const OtherResult = ({ myName, otherName }: OtherResultProps) => {
         </S.LowHeader>
       </S.Header>
       <S.ChatContainer>
-        <ChatBox
-          chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-          date="오전 12시"
-          isFirstChat
-          isMyChat={false}
-        />
-        <ChatBox
-          chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-          date="오전 12시"
-          isFirstChat={false}
-          isMyChat={false}
-        />
+        {isOther ? (
+          <>
+            <ChatBox
+              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
+              date="오전 12시"
+              isFirstChat
+              isMyChat={false}
+            />
+            <ChatBox
+              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
+              date="오전 12시"
+              isFirstChat={false}
+              isMyChat={false}
+            />
+          </>
+        ) : (
+          <>
+            <ChatBox
+              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
+              date="오전 12시"
+              isFirstChat
+              isMyChat
+            />
+            <ChatBox
+              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
+              date="오전 12시"
+              isFirstChat={false}
+              isMyChat
+            />
+          </>
+        )}
       </S.ChatContainer>
       <S.Main>
         <S.ResultContainer>
@@ -62,23 +80,25 @@ const OtherResult = ({ myName, otherName }: OtherResultProps) => {
             <S.TipResult>상대는 칭찬해 주는 것을 좋아해요</S.TipResult>
           </S.ResultY>
         </S.ResultContainer>
-        <S.ResultContainer>
-          <S.TextContainer>
-            <S.Title>주의</S.Title>
-            <S.SubText>이 행동이 바뀌지 않으면 차일 가능성 65%</S.SubText>
-          </S.TextContainer>
-          <S.ResultP>
-            <S.TipResult>상대의 말에 진심으로 공감해 주세요</S.TipResult>
-            <S.TipResult>상대는 칭찬해 주는 것을 좋아해요</S.TipResult>
-          </S.ResultP>
-        </S.ResultContainer>
+        {isOther && (
+          <S.ResultContainer>
+            <S.TextContainer>
+              <S.Title>주의</S.Title>
+              <S.SubText>이 행동이 바뀌지 않으면 차일 가능성 65%</S.SubText>
+            </S.TextContainer>
+            <S.ResultP>
+              <S.TipResult>상대의 말에 진심으로 공감해 주세요</S.TipResult>
+              <S.TipResult>상대는 칭찬해 주는 것을 좋아해요</S.TipResult>
+            </S.ResultP>
+          </S.ResultContainer>
+        )}
         <S.BtnContainer>
-          <S.SaveBtn>저장하기</S.SaveBtn>
-          <S.More>속마음 더 보기</S.More>
+          <S.SaveBtn>결과 저장하기</S.SaveBtn>
+          {isOther && <S.More>속마음 더 보기</S.More>}
         </S.BtnContainer>
       </S.Main>
     </S.Layout>
   );
 };
 
-export default OtherResult;
+export default AnalysisResult;

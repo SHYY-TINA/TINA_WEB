@@ -44,6 +44,7 @@ export const HeartContainer = styled.div`
 `;
 export const ChatContainer = styled.div`
   ${flex.COLUMN_FLEX}
+  width: 100%;
   padding: 32px 20px;
   gap: 4px;
 `;
