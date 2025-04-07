@@ -9,9 +9,10 @@ interface ChatBoxProps {
   isMyChat: boolean;
 }
 
-const Layout = styled.main`
+const Layout = styled.main<{ isMyChat: boolean }>`
   ${flex.FLEX}
   gap: 4px;
+  margin-left: ${({ isMyChat }) => isMyChat && "auto"};
 `;
 
 const ChatBoxContainer = styled.div<{ radios: boolean; color: boolean }>`
@@ -41,7 +42,7 @@ const DateContainer = styled.span`
 
 const ChatBox = ({ chatData, date, isFirstChat, isMyChat }: ChatBoxProps) => {
   return (
-    <Layout>
+    <Layout isMyChat={isMyChat}>
       {isMyChat ? (
         <>
           <DateContainer>{date}</DateContainer>
