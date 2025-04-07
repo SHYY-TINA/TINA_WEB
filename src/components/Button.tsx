@@ -26,7 +26,7 @@ const Button = ({ mode, text, isActive = false, ...props }: ButtonProps) => {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsClicked(true);
-    props.onClick?.(e);
+    props.onClick?.(e); // 부모 컴포넌트의 클릭 이벤트 호출
   };
 
   return (
@@ -97,7 +97,10 @@ const StyledButton = styled.button<StyledButtonProps>`
       case "SMALLGRAY":
         return css`
           background-color: transparent;
-          color: ${theme.brown3};
+          color: ${isActive
+            ? theme.primaryPink
+            : theme.brown3}; // 활성화된 버튼만 핑크
+          border: none;
         `;
       case "SMALLPINK":
         return css`
