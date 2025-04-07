@@ -15,6 +15,7 @@ const Layout = styled.main`
 `;
 
 const ChatBoxContainer = styled.div<{ radios: boolean; color: boolean }>`
+  max-width: 232px;
   padding: ${({ radios }) => (radios ? "8px 7px" : "8px 12px")};
   border-radius: 16px;
   background-color: ${({ color }) => (color ? theme.primaryPink : theme.white)};
