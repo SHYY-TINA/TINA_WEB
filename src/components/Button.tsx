@@ -12,14 +12,16 @@ type ButtonMode =
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   mode: ButtonMode;
   text: string;
+  isActive?: boolean;
 }
 
 interface StyledButtonProps {
   mode: ButtonMode;
   isClicked: boolean;
+  isActive: boolean;
 }
 
-const Button = ({ mode, text, ...props }: ButtonProps) => {
+const Button = ({ mode, text, isActive = false, ...props }: ButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,6 +33,7 @@ const Button = ({ mode, text, ...props }: ButtonProps) => {
     <StyledButton
       mode={mode}
       isClicked={isClicked}
+      isActive={isActive}
       onClick={handleClick}
       {...props}
     >
@@ -63,11 +66,13 @@ const StyledButton = styled.button<StyledButtonProps>`
 
   ${({ mode }) => (mode.startsWith("BIG") ? bigCommon : smallCommon)}
 
-  ${({ mode, isClicked }) => {
+  ${({ mode, isClicked, isActive }) => {
     switch (mode) {
       case "BIGPINK":
         return css`
-          background-color: ${isClicked ? theme.primaryPink : "#a6a6a6"};
+          background-color: ${isClicked || isActive
+            ? theme.primaryPink
+            : "#a6a6a6"};
           color: ${theme.white};
           border: none;
 
