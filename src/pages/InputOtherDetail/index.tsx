@@ -14,7 +14,7 @@ const InputOtherDetail = () => {
   const navigate = useNavigate();
   const handleClick = () => {
     if (isValid) {
-      navigate("/home");
+      navigate("/upload-file");
     }
   };
   const goBack = () => {
