@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import theme from "../shared/style/theme";
-import flex from "../shared/style/flex";
-import Heart from "../assets/icons/heart";
-import Trash from "../assets/icons/trashEmpty";
+import theme from "@/shared/style/theme";
+import flex from "@/shared/style/flex";
+import Heart from "@/assets/icons/heart";
+import Trash from "@/assets/icons/trashEmpty";
 
 interface ResultProps {
   name: string;

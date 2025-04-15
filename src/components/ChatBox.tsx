@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import flex from "../shared/style/flex";
-import theme from "../shared/style/theme";
+import flex from "@/shared/style/flex";
+import theme from "@/shared/style/theme";
 import { useState } from "react";
 
 interface ChatBoxProps {

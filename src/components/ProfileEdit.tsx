@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Edit from "../assets/icons/edit";
-import Logout from "../assets/icons/logout";
-import flex from "../shared/style/flex";
-import theme from "../shared/style/theme";
+import Edit from "@/assets/icons/edit";
+import Logout from "@/assets/icons/logout";
+import flex from "@/shared/style/flex";
+import theme from "@/shared/style/theme";
 
 const Layout = styled.div`
   position: absolute;

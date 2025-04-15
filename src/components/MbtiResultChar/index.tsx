@@ -1,20 +1,20 @@
 import * as S from "./style";
-import ENFJ from "../../assets/illustration/ENFJ.png";
-import ENFP from "../../assets/illustration/ENFP.png";
-import ENTJ from "../../assets/illustration/ENTJ.png";
-import ENTP from "../../assets/illustration/ENTP.png";
-import ESFJ from "../../assets/illustration/ESFJ.png";
-import ESFP from "../../assets/illustration/ESFP.png";
-import ESTJ from "../../assets/illustration/ESTJ.png";
-import ESTP from "../../assets/illustration/ESTP.png";
-import INFJ from "../../assets/illustration/INFJ.png";
-import INFP from "../../assets/illustration/INFP.png";
-import INTJ from "../../assets/illustration/INTJ.png";
-import INTP from "../../assets/illustration/INTP.png";
-import ISFJ from "../../assets/illustration/ISFJ.png";
-import ISFP from "../../assets/illustration/ISFP.png";
-import ISTJ from "../../assets/illustration/ISTJ.png";
-import ISTP from "../../assets/illustration/ISTP.png";
+import ENFJ from "@/assets/illustration/ENFJ.png";
+import ENFP from "@/assets/illustration/ENFP.png";
+import ENTJ from "@/assets/illustration/ENTJ.png";
+import ENTP from "@/assets/illustration/ENTP.png";
+import ESFJ from "@/assets/illustration/ESFJ.png";
+import ESFP from "@/assets/illustration/ESFP.png";
+import ESTJ from "@/assets/illustration/ESTJ.png";
+import ESTP from "@/assets/illustration/ESTP.png";
+import INFJ from "@/assets/illustration/INFJ.png";
+import INFP from "@/assets/illustration/INFP.png";
+import INTJ from "@/assets/illustration/INTJ.png";
+import INTP from "@/assets/illustration/INTP.png";
+import ISFJ from "@/assets/illustration/ISFJ.png";
+import ISFP from "@/assets/illustration/ISFP.png";
+import ISTJ from "@/assets/illustration/ISTJ.png";
+import ISTP from "@/assets/illustration/ISTP.png";
 
 interface MbtiResultCharProps {
   isMine?: boolean;

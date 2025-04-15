@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import theme from "../shared/style/theme";
-import InputWarningIcon from "../assets/icons/inputWarning.png";
+import theme from "@/shared/style/theme";
+import InputWarningIcon from "@/assets/icons/inputWarning.png";
 
 interface InputProps {
   placeholder: string;

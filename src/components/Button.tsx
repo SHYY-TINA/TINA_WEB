@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import theme from "../shared/style/theme";
 import { useState } from "react";
+import theme from "@/shared/style/theme";
 
 type ButtonMode =
   | "BIGPINK"
@@ -26,7 +26,7 @@ const Button = ({ mode, text, isActive = false, ...props }: ButtonProps) => {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsClicked(true);
-    props.onClick?.(e); // 부모 컴포넌트의 클릭 이벤트 호출
+    props.onClick?.(e);
   };
 
   return (

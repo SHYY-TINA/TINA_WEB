@@ -1,8 +1,8 @@
 import * as S from "./style";
-import LeftArrow from "../../assets/icons/leftArrow";
-import Arrow from "../../assets/icons/arrow";
-import Heart from "../../assets/icons/heart";
-import ChatBox from "../../components/ChatBox";
+import LeftArrow from "@/assets/icons/leftArrow";
+import Arrow from "@/assets/icons/arrow";
+import Heart from "@/assets/icons/heart";
+import ChatBox from "@/components/ChatBox";
 import { useNavigate } from "react-router-dom";
 
 interface OtherResultProps {

@@ -1,12 +1,12 @@
 import * as S from "./style";
-import YoutHeart from "../../assets/illustration/yourHeart.png";
-import MyHeart from "../../assets/illustration/MyHeart.png";
-import RecordHeart from "../../assets/illustration/recordHeart.png";
-import MBTI from "../../assets/illustration/mbti.png";
-import LeftArrowBigGray from "../../assets/icons/leftArrowBigGray";
-import RightArrowBigGray from "../../assets/icons/rightArrowBigGray";
-import LeftArrowBigWhite from "../../assets/icons/leftArrowBigWhite";
-import RightArrowBigWhite from "../../assets/icons/rightArrowBigWhite";
+import YoutHeart from "@/assets/illustration/yourHeart.png";
+import MyHeart from "@/assets/illustration/MyHeart.png";
+import RecordHeart from "@/assets/illustration/recordHeart.png";
+import MBTI from "@/assets/illustration/mbti.png";
+import LeftArrowBigGray from "@/assets/icons/leftArrowBigGray";
+import RightArrowBigGray from "@/assets/icons/rightArrowBigGray";
+import LeftArrowBigWhite from "@/assets/icons/leftArrowBigWhite";
+import RightArrowBigWhite from "@/assets/icons/rightArrowBigWhite";
 
 const Choice = ({
   index,

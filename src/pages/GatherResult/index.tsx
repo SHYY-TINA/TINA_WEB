@@ -1,10 +1,10 @@
 import * as S from "./style";
-import LeftArrow from "../../assets/icons/leftArrow";
-import Button from "../../components/Button";
-import Result from "../../components/Result";
+import LeftArrow from "@/assets/icons/leftArrow";
+import Button from "@/components/Button";
+import Result from "@/components/Result";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import NoticeModal from "../../components/NoticeModal";
+import NoticeModal from "@/components/NoticeModal";
 
 const GatherResult = () => {
   const UserDetail = [

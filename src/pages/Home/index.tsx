@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./style";
-import Word from "../../assets/illustration/word";
-import UserProfile from "../../assets/icons/userProfile";
-import Choice from "../../components/Choice";
-import ProfileEdit from "../../components/ProfileEdit";
+import Word from "@/assets/illustration/word";
+import UserProfile from "@/assets/icons/userProfile";
+import Choice from "@/components/Choice";
+import ProfileEdit from "@/components/ProfileEdit";
 
 const Home = () => {
   const [showProfileEdit, setShowProfileEdit] = useState(false);
