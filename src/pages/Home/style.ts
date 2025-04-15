@@ -3,8 +3,8 @@ import flex from "../../shared/style/flex";
 import theme from "../../shared/style/theme";
 
 export const Layout = styled.main`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.5) 57.26%,

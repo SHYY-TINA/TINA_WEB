@@ -14,8 +14,8 @@ export const ModalOverlay = styled.div`
 export const Layout = styled.main`
   ${flex.COLUMN_VERTICAL}
   padding: 0 20px;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.5) 57.26%,

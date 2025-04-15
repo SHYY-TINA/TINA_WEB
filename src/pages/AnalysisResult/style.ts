@@ -4,8 +4,8 @@ import flex from "../../shared/style/flex";
 
 export const Layout = styled.main`
   ${flex.COLUMN_FLEX}
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: radial-gradient(
       60.13% 15.23% at 50.13% 21.53%,
       #fec9d0 0%,

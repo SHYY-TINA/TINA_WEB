@@ -12,20 +12,16 @@ interface ProfileEditProps {
 }
 
 const UserProfileEdit = ({ userName, userMbti, jender }: ProfileEditProps) => {
-  // Set default values from props
   const [name, setName] = useState(userName);
   const [mbti, setMbti] = useState(userMbti);
   const [gender, setGender] = useState(jender);
-
-  // Track if any input value is changed
   const [isModified, setIsModified] = useState(false);
 
-  // Check if any input value is different from the default value
   useEffect(() => {
     setIsModified(name !== userName || mbti !== userMbti || gender !== jender);
   }, [name, mbti, gender, userName, userMbti, jender]);
 
-  const isValid = name && mbti && gender;
+  const isValid = !!(name && mbti && gender);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -96,7 +92,7 @@ const UserProfileEdit = ({ userName, userMbti, jender }: ProfileEditProps) => {
         <Button
           mode="BIGPINK"
           text="수정하기"
-          isActive={isModified && isValid} // Only active if values are modified and valid
+          isActive={isModified && isValid}
           onClick={handleClick}
         />
       </S.BtnContainer>

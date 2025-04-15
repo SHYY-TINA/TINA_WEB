@@ -4,8 +4,8 @@ import theme from "../../shared/style/theme";
 
 export const Layout = styled.main`
   ${flex.COLUMN_FLEX}
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   padding: 47px 20px 0 20px;
   background: linear-gradient(
       180deg,

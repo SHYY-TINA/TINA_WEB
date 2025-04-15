@@ -3,8 +3,8 @@ import flex from "../../shared/style/flex";
 import theme from "../../shared/style/theme";
 
 export const Layout = styled.main`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background: radial-gradient(
       83.5% 30.97% at 50.13% 50%,
       #fec9d0 0%,
