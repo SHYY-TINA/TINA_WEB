@@ -16,7 +16,7 @@ interface StyledInputProps {
 
 const InputWrapper = styled.div`
   position: relative;
-  width: 335px;
+  width: 100%;
 `;
 
 const Layout = styled.input<StyledInputProps>`
