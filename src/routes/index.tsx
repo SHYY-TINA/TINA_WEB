@@ -9,6 +9,7 @@ import Mbti from "../pages/Mbti";
 import MbtiResult from "../pages/MbtiResult";
 import UserProfileEdit from "../pages/UserProfileEdit";
 import { useRoutes } from "react-router-dom";
+import KakaoRedirect from "@/pages/auth/KakaoRedirect";
 
 function Router() {
   return useRoutes([
@@ -16,6 +17,7 @@ function Router() {
       path: "/",
       children: [{ index: true, element: <StartLogin /> }],
     },
+    { path: "/oauth/code", element: <KakaoRedirect /> },
     { path: "/input-user-detail", element: <InputUserDetail /> },
     { path: "/home", element: <Home /> },
     { path: "/input-other-detail", element: <InputOtherDetail /> },

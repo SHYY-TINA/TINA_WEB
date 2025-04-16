@@ -9,6 +9,11 @@ const StartLogin = () => {
 
   const handleNoLoginClick = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+  const KAKAO_AUTH_URL = import.meta.env.VITE_KAKAO_AUTH_URL;
+
+  const kakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL!;
+  };
 
   return (
     <S.Layout>
@@ -17,7 +22,7 @@ const StartLogin = () => {
         <span>그 말, 무슨 의미일까?</span>
         <span>티나가 알려줄게요</span>
       </S.TextContainer>
-      <S.LoginContainer>
+      <S.LoginContainer onClick={kakaoLogin}>
         <S.LoginCenter>
           <Kakao />
           <S.Login>카카오 로그인</S.Login>
