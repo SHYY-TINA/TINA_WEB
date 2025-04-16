@@ -45,7 +45,22 @@ export const HeartContainer = styled.div`
 export const ChatContainer = styled.div`
   ${flex.COLUMN_FLEX}
   width: 100%;
-  padding: 32px 20px;
+  padding: 24px 20px;
+`;
+export const ChatBoxContainer = styled.div`
+  ${flex.COLUMN_CENTER}
+  width: 100%;
+  gap: 24px;
+`;
+export const ChatHeaderText = styled.div`
+  ${flex.COLUMN_CENTER}
+  color: #FF7A88;
+  font-size: 12px;
+  font-weight: 500;
+`;
+export const Chat = styled.div`
+  ${flex.COLUMN_FLEX}
+  margin-right: auto;
   gap: 4px;
 `;
 export const Main = styled.div`

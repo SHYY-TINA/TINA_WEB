@@ -4,7 +4,6 @@ import Home from "../pages/Home";
 import InputOtherDetail from "../pages/InputOtherDetail";
 import UploadFile from "../pages/UploadFile";
 import AnalysisResult from "../pages/AnalysisResult";
-import ResultDetail from "../pages/ResultDetail";
 import GatherResult from "../pages/GatherResult";
 import Mbti from "../pages/Mbti";
 import MbtiResult from "../pages/MbtiResult";
@@ -23,7 +22,6 @@ function Router() {
     { path: "/upload-file", element: <UploadFile /> },
     { path: "/other-result", element: <AnalysisResult isOther /> },
     { path: "/my-result", element: <AnalysisResult /> },
-    { path: "/detail-result", element: <ResultDetail /> },
     { path: "/gather-result", element: <GatherResult /> },
     { path: "/mbti-match", element: <Mbti /> },
     { path: "/mbti-result", element: <MbtiResult heartNum={4} /> },

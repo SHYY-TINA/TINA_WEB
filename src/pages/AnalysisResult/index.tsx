@@ -14,9 +14,6 @@ const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
   const goBack = () => {
     navigate(-1);
   };
-  const goDetail = () => {
-    navigate("/detail-result");
-  };
   return (
     <S.Layout>
       <S.Header>
@@ -39,20 +36,28 @@ const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
       </S.Header>
       <S.ChatContainer>
         {isOther ? (
-          <>
-            <ChatBox
-              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-              date="오전 12시"
-              isFirstChat
-              isMyChat={false}
-            />
-            <ChatBox
-              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-              date="오전 12시"
-              isFirstChat={false}
-              isMyChat={false}
-            />
-          </>
+          <S.ChatBoxContainer>
+            <S.ChatHeaderText>
+              <span>속마음이 궁금한 말풍선을</span>
+              <span>클릭해 보세요!</span>
+            </S.ChatHeaderText>
+            <S.Chat>
+              <ChatBox
+                chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
+                date="오전 12시"
+                isFirstChat
+                isMyChat={false}
+                enableReveal
+              />
+              <ChatBox
+                chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
+                date="오전 12시"
+                isFirstChat={false}
+                isMyChat={false}
+                enableReveal
+              />
+            </S.Chat>
+          </S.ChatBoxContainer>
         ) : (
           <>
             <ChatBox
@@ -102,7 +107,6 @@ const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
         )}
         <S.BtnContainer>
           <S.SaveBtn>결과 저장하기</S.SaveBtn>
-          {isOther && <S.More onClick={goDetail}>속마음 더 보기</S.More>}
         </S.BtnContainer>
       </S.Main>
     </S.Layout>
