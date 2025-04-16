@@ -20,17 +20,26 @@ const EditContainer = styled.div`
   padding: 4px 17px 4px 8px;
   gap: 4px;
   cursor: pointer;
-
   &:hover {
     background-color: ${theme.brown1};
+    border-radius: 12px 12px 0 0;
   }
 `;
 
-const LogoutContainer = styled(EditContainer)`
+const LogoutContainer = styled.div`
+  ${flex.FLEX}
+  width: 100%;
   padding: 4px 17px 4px 8px;
+  gap: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${theme.brown1};
+    border-radius: 0 0 12px 12px;
+  }
 `;
 
 const Text = styled.span`
+  ${flex.CENTER}
   font-size: 12px;
   font-weight: 400;
   color: ${theme.brown5};
