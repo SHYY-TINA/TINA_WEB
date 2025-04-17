@@ -3,7 +3,7 @@ import Edit from "@/assets/icons/edit";
 import Logout from "@/assets/icons/logout";
 import flex from "@/shared/style/flex";
 import theme from "@/shared/style/theme";
-import { useLogout } from "@/shared/lib/useLogout";
+import { useLogout } from "@/shared/hooks/useLogout";
 
 const Layout = styled.div`
   position: absolute;

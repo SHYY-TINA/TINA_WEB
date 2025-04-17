@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "@/shared/lib/useLogin";
+import { useLogin } from "@/shared/hooks/useLogin";
 import { useAuthStore } from "@/shared/store/auth";
 
 const KakaoRedirect = () => {

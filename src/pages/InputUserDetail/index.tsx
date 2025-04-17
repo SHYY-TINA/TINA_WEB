@@ -3,18 +3,31 @@ import Button from "../../components/Button";
 import Input from "../../components/input";
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
+import { useUpdateUserDetail } from "@/shared/hooks/useUpdateUserDetail";
 
 const InputUserDetail = () => {
   const [name, setName] = useState("");
   const [mbti, setMbti] = useState("");
   const [gender, setGender] = useState("");
 
-  const isValid = name && mbti && gender;
   const navigate = useNavigate();
+  const isValid = name && mbti && gender;
+
+  const { mutate } = useUpdateUserDetail();
+
   const handleClick = () => {
-    if (isValid) {
-      navigate("/home");
-    }
+    if (!isValid) return;
+    mutate(
+      { nickname: name, mbti },
+      {
+        onSuccess: () => {
+          navigate("/home");
+        },
+        onError: () => {
+          alert("정보 입력에 실패했습니다. 다시 시도해주세요.");
+        },
+      },
+    );
   };
 
   return (
