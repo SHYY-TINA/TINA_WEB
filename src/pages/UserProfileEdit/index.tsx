@@ -1,28 +1,33 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import Input from "../../components/input";
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
+import { useUserBasicInfo } from "@/shared/hooks/useUserBasicInfo";
 
-interface ProfileEditProps {
-  userName: string;
-  userMbti: string;
-  jender: string;
-}
+const UserProfileEdit = () => {
+  const navigate = useNavigate();
+  const { data, isLoading } = useUserBasicInfo();
 
-const UserProfileEdit = ({ userName, userMbti, jender }: ProfileEditProps) => {
-  const [name, setName] = useState(userName);
-  const [mbti, setMbti] = useState(userMbti);
-  const [gender, setGender] = useState(jender);
+  const [name, setName] = useState("");
+  const [mbti, setMbti] = useState("");
   const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
-    setIsModified(name !== userName || mbti !== userMbti || gender !== jender);
-  }, [name, mbti, gender, userName, userMbti, jender]);
+    if (data) {
+      setName(data.nickname);
+      setMbti(data.mbti);
+    }
+  }, [data]);
 
-  const isValid = !!(name && mbti && gender);
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (data) {
+      setIsModified(name !== data.nickname || mbti !== data.mbti);
+    }
+  }, [name, mbti, data]);
+
+  const isValid = !!(name && mbti);
 
   const handleClick = () => {
     if (isValid && isModified) {
@@ -33,6 +38,8 @@ const UserProfileEdit = ({ userName, userMbti, jender }: ProfileEditProps) => {
   const goBack = () => {
     navigate(-1);
   };
+
+  if (isLoading) return <div>불러오는 중...</div>;
 
   return (
     <S.Layout>
@@ -61,31 +68,6 @@ const UserProfileEdit = ({ userName, userMbti, jender }: ProfileEditProps) => {
             value={mbti}
             onChange={(e) => setMbti(e.target.value)}
           />
-        </S.Container>
-        <S.Container>
-          <S.InputTitle>성별</S.InputTitle>
-          <S.FlexContainer>
-            <S.JenderInputBox>
-              <S.Radio
-                type="radio"
-                name="gender"
-                value="남성"
-                checked={gender === "남성"}
-                onChange={(e) => setGender(e.target.value)}
-              />
-              남성
-            </S.JenderInputBox>
-            <S.JenderInputBox>
-              <S.Radio
-                type="radio"
-                name="gender"
-                value="여성"
-                checked={gender === "여성"}
-                onChange={(e) => setGender(e.target.value)}
-              />
-              여성
-            </S.JenderInputBox>
-          </S.FlexContainer>
         </S.Container>
       </S.InputContainer>
       <S.BtnContainer>

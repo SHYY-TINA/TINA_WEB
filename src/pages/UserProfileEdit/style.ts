@@ -46,35 +46,6 @@ export const InputTitle = styled.span`
   font-size: 14px;
   font-weight: 400;
 `;
-export const FlexContainer = styled.div`
-  ${flex.FLEX}
-  margin-top: 1px;
-  gap: 16px;
-`;
-export const JenderInputBox = styled.div`
-  ${flex.CENTER}
-  gap: 4px;
-  color: ${theme.brown6};
-  font-size: 14px;
-  font-weight: 400;
-`;
-export const Radio = styled.input`
-  flex-shrink: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 12px;
-  height: 12px;
-  border: 1px solid ${theme.brown3};
-  border-radius: 50%;
-  outline: none;
-  cursor: pointer;
-  &:checked {
-    background-color: ${theme.primaryPink};
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 1px ${theme.primaryPink};
-  }
-`;
 export const BtnContainer = styled.div`
   ${flex.COLUMN_CENTER}
   gap: 10px;

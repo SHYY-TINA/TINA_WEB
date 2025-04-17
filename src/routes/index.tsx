@@ -10,6 +10,8 @@ import MbtiResult from "../pages/MbtiResult";
 import UserProfileEdit from "../pages/UserProfileEdit";
 import { useRoutes } from "react-router-dom";
 import KakaoRedirect from "@/pages/auth/KakaoRedirect";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import Withdrawal from "@/pages/Withdrawal";
 
 function Router() {
   return useRoutes([
@@ -18,21 +20,79 @@ function Router() {
       children: [{ index: true, element: <StartLogin /> }],
     },
     { path: "/oauth/code", element: <KakaoRedirect /> },
-    { path: "/input-user-detail", element: <InputUserDetail /> },
-    { path: "/home", element: <Home /> },
-    { path: "/input-other-detail", element: <InputOtherDetail /> },
-    { path: "/upload-file", element: <UploadFile /> },
-    { path: "/other-result", element: <AnalysisResult isOther /> },
-    { path: "/my-result", element: <AnalysisResult /> },
-    { path: "/gather-result", element: <GatherResult /> },
-    { path: "/mbti-match", element: <Mbti /> },
-    { path: "/mbti-result", element: <MbtiResult heartNum={4} /> },
+    {
+      path: "/input-user-detail",
+      element: <InputUserDetail />,
+    },
+    {
+      path: "/home",
+      element: <Home />,
+    },
+    {
+      path: "/input-other-detail",
+      element: (
+        // <ProtectedRoute>
+        <InputOtherDetail />
+        // </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/upload-file",
+      element: (
+        // <ProtectedRoute>
+        <UploadFile />
+        // </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/other-result",
+      element: (
+        // <ProtectedRoute>
+        <AnalysisResult isOther />
+        // </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/my-result",
+      element: (
+        // <ProtectedRoute>
+        <AnalysisResult />
+        // </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/gather-result",
+      element: (
+        // <ProtectedRoute>
+        <GatherResult />
+        // </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/mbti-match",
+      element: (
+        // <ProtectedRoute>
+        <Mbti />
+        // </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/mbti-result",
+      element: (
+        // <ProtectedRoute>
+        <MbtiResult heartNum={4} />
+        // </ProtectedRoute>
+      ),
+    },
     {
       path: "/profile-edit",
       element: (
-        <UserProfileEdit userMbti="ISTP" userName="예진" jender="여성" />
+        <ProtectedRoute>
+          <UserProfileEdit />
+        </ProtectedRoute>
       ),
     },
+    { path: "/withdrawal", element: <Withdrawal /> },
     // { path: '*', element: <NotFound /> }
   ]);
 }
