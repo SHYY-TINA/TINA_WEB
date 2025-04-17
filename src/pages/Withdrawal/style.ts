@@ -29,56 +29,13 @@ export const SubTitleContainer = styled.span`
   color: ${theme.brown4};
   font-size: 14px;
   font-weight: 400;
-`;
-export const InputContainer = styled.div`
-  ${flex.COLUMN_FLEX}
-  padding: 34px 0 44px 0;
-  width: 100%;
-  gap: 10px;
-`;
-export const Container = styled.div`
-  ${flex.COLUMN_FLEX}
-  width: 100%;
-  gap: 2px;
-`;
-export const InputTitle = styled.span`
-  color: ${theme.brown6};
-  font-size: 14px;
-  font-weight: 400;
-`;
-export const FlexContainer = styled.div`
-  ${flex.FLEX}
-  margin-top: 1px;
-  gap: 16px;
-`;
-export const JenderInputBox = styled.div`
-  ${flex.CENTER}
-  gap: 4px;
-  color: ${theme.brown6};
-  font-size: 14px;
-  font-weight: 400;
-`;
-export const Radio = styled.input`
-  flex-shrink: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 12px;
-  height: 12px;
-  border: 1px solid ${theme.brown3};
-  border-radius: 50%;
-  outline: none;
-  cursor: pointer;
-  &:checked {
-    background-color: ${theme.primaryPink};
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 1px ${theme.primaryPink};
-  }
+  gap: 3px;
 `;
 export const BtnContainer = styled.div`
   ${flex.COLUMN_CENTER}
   gap: 10px;
   width: 100%;
+  padding-top: 248px;
 `;
 export const GoWithdrawal = styled.button`
   border: none;

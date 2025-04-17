@@ -95,6 +95,9 @@ const UserProfileEdit = ({ userName, userMbti, jender }: ProfileEditProps) => {
           isActive={isModified && isValid}
           onClick={handleClick}
         />
+        <S.GoWithdrawal onClick={() => navigate("/withdrawal")}>
+          회원 탈퇴하기
+        </S.GoWithdrawal>
       </S.BtnContainer>
     </S.Layout>
   );
