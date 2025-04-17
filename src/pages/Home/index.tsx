@@ -5,17 +5,22 @@ import Word from "@/assets/illustration/word";
 import UserProfile from "@/assets/icons/userProfile";
 import Choice from "@/components/Choice";
 import ProfileEdit from "@/components/ProfileEdit";
+import { useAuthStore } from "@/shared/store/auth";
 
 const Home = () => {
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const [index, setIndex] = useState(0);
   const profileRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const refreshToken = useAuthStore((state) => state.refreshToken);
+  console.log("accessToken:", accessToken);
+  console.log("refreshToken:", refreshToken);
 
   const ChoiceDetail = [
-    { url: "/heart-of-you" },
-    { url: "/my-heart" },
-    { url: "/records" },
+    { url: "/input-other-detail" },
+    { url: "/input-other-detail" },
+    { url: "/gather-result" },
     { url: "/mbti-match" },
   ];
 

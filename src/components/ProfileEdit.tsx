@@ -3,6 +3,7 @@ import Edit from "@/assets/icons/edit";
 import Logout from "@/assets/icons/logout";
 import flex from "@/shared/style/flex";
 import theme from "@/shared/style/theme";
+import { useLogout } from "@/shared/lib/useLogout";
 
 const Layout = styled.div`
   position: absolute;
@@ -52,6 +53,7 @@ const Line = styled.div`
 `;
 
 const ProfileEdit = () => {
+  const { mutate: logout } = useLogout();
   return (
     <Layout>
       <EditContainer>
@@ -59,7 +61,7 @@ const ProfileEdit = () => {
         <Text>프로필 수정</Text>
       </EditContainer>
       <Line />
-      <LogoutContainer>
+      <LogoutContainer onClick={() => logout()}>
         <Logout />
         <Text>로그아웃</Text>
       </LogoutContainer>
