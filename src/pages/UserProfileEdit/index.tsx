@@ -5,10 +5,12 @@ import * as S from "./style";
 import { useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
 import { useUserBasicInfo } from "@/shared/hooks/useUserBasicInfo";
+import { useUpdateUserDetail } from "@/shared/hooks/useUpdateUserDetail";
 
 const UserProfileEdit = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useUserBasicInfo();
+  const { mutate } = useUpdateUserDetail();
 
   const [name, setName] = useState("");
   const [mbti, setMbti] = useState("");
@@ -31,7 +33,17 @@ const UserProfileEdit = () => {
 
   const handleClick = () => {
     if (isValid && isModified) {
-      navigate("/upload-file");
+      mutate(
+        { nickname: name, mbti },
+        {
+          onSuccess: () => {
+            navigate("/home");
+          },
+          onError: () => {
+            alert("수정에 실패했습니다. 다시 시도해주세요.");
+          },
+        },
+      );
     }
   };
 

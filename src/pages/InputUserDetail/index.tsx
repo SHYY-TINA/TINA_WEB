@@ -4,6 +4,7 @@ import Input from "../../components/input";
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
 import { useUpdateUserDetail } from "@/shared/hooks/useUpdateUserDetail";
+import { useUserInfoStore } from "@/shared/store/user";
 
 const InputUserDetail = () => {
   const [name, setName] = useState("");
@@ -15,12 +16,17 @@ const InputUserDetail = () => {
 
   const { mutate } = useUpdateUserDetail();
 
+  const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
+
   const handleClick = () => {
     if (!isValid) return;
+
     mutate(
       { nickname: name, mbti },
       {
         onSuccess: () => {
+          setUserInfo({ nickname: name, mbti, gender });
+          console.log(name, mbti, gender);
           navigate("/home");
         },
         onError: () => {

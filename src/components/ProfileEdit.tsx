@@ -4,6 +4,7 @@ import Logout from "@/assets/icons/logout";
 import flex from "@/shared/style/flex";
 import theme from "@/shared/style/theme";
 import { useLogout } from "@/shared/hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 
 const Layout = styled.div`
   position: absolute;
@@ -54,9 +55,13 @@ const Line = styled.div`
 
 const ProfileEdit = () => {
   const { mutate: logout } = useLogout();
+  const navigate = useNavigate();
+  const handleGoToEdit = () => {
+    navigate("/profile-edit");
+  };
   return (
     <Layout>
-      <EditContainer>
+      <EditContainer onClick={handleGoToEdit}>
         <Edit />
         <Text>프로필 수정</Text>
       </EditContainer>
