@@ -26,7 +26,6 @@ const InputUserDetail = () => {
       {
         onSuccess: () => {
           setUserInfo({ nickname: name, mbti, gender });
-          console.log(name, mbti, gender);
           navigate("/home");
         },
         onError: () => {

@@ -2,14 +2,11 @@ import Button from "../../components/Button";
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
+import { useUserDelete } from "@/shared/hooks/useUserDelete";
 
 const Withdrawal = () => {
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    //탈퇴하는 api
-    navigate("/upload-file");
-  };
+  const { mutate: withdrawal } = useUserDelete();
 
   const goBack = () => {
     navigate(-1);
@@ -28,7 +25,7 @@ const Withdrawal = () => {
         <span>그래도 진행하시나요?</span>
       </S.SubTitleContainer>
       <S.BtnContainer>
-        <Button mode="BIGPINK" text="탈퇴하기" onClick={handleClick} />
+        <Button mode="BIGPINK" text="탈퇴하기" onClick={() => withdrawal()} />
         <S.GoWithdrawal onClick={goBack}>취소하기</S.GoWithdrawal>
       </S.BtnContainer>
     </S.Layout>
