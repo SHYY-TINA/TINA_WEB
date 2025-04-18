@@ -6,11 +6,13 @@ import { useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
 import { useUserBasicInfo } from "@/shared/hooks/useUserBasicInfo";
 import { useUpdateUserDetail } from "@/shared/hooks/useUpdateUserDetail";
+import { useUserInfoStore } from "@/shared/store/user";
 
 const UserProfileEdit = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useUserBasicInfo();
   const { mutate } = useUpdateUserDetail();
+  const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
 
   const [name, setName] = useState("");
   const [mbti, setMbti] = useState("");
@@ -37,6 +39,11 @@ const UserProfileEdit = () => {
         { nickname: name, mbti },
         {
           onSuccess: () => {
+            setUserInfo({
+              nickname: name,
+              mbti,
+              gender: data?.gender || "",
+            });
             navigate("/home");
           },
           onError: () => {
