@@ -34,11 +34,13 @@ const PhoneBackground = styled.img`
 const RouterWrapper = styled.div`
   position: relative;
   z-index: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   @media (min-width: 441px) {
     width: 345px;
     height: 779px;
     border-radius: 80px;
-    overflow: hidden;
   }
   @media (max-width: 440px) {
     width: 100%;

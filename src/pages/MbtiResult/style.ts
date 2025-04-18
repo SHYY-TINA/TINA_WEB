@@ -5,7 +5,7 @@ import theme from "../../shared/style/theme";
 export const Layout = styled.main`
   ${flex.COLUMN_FLEX}
   width: 100%;
-  height: 100%;
+  height: fit-content;
   padding: 47px 20px;
   background-color: ${theme.white};
 `;
