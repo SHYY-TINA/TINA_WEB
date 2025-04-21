@@ -1,5 +1,5 @@
 import * as S from "./style";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
 import Heart from "../../assets/icons/heart";
 import HeartEmpty from "../../assets/icons/heartEmpty";
@@ -10,18 +10,40 @@ import Relation from "../../assets/icons/relation";
 import Warning from "../../assets/icons/warning";
 import Light from "../../assets/icons/light";
 import theme from "../../shared/style/theme";
+import { useGetMbtiResult } from "@/shared/hooks/useGetMbtiResult";
 
 interface MbtiResultProps {
   heartNum: number;
 }
 
 const MbtiResult = ({ heartNum }: MbtiResultProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { myMbtiValue, otherMbti } = location.state || {};
+
+  const { data: resultData, isLoading } = useGetMbtiResult({
+    firstMbti: myMbtiValue,
+    secondMbti: otherMbti,
+  });
+
+  const heartIcons = Array.from({ length: 5 }, (_, i) =>
+    i < heartNum ? (
+      <Heart key={`filled-${i}`} />
+    ) : (
+      <HeartEmpty key={`empty-${i}`} />
+    ),
+  );
+
   const ResultDetail = [
     {
       id: 1,
       icon: <Bubble />,
       title: "대화 스타일",
-      text: "서로 닮아 공감은 잘 되지만 지루할 수도",
+      text:
+        resultData?.communicationStyle ||
+        (isLoading
+          ? "대화 스타일을 불러오는 중입니다."
+          : "데이터를 찾을 수 없습니다."),
       color: theme.resultPink,
     },
     {
@@ -29,10 +51,12 @@ const MbtiResult = ({ heartNum }: MbtiResultProps) => {
       icon: <Relation />,
       title: "관계 장점",
       text: (
-        <>
-          <S.DotResult>감정 공감력이 뛰어남</S.DotResult>
-          <S.DotResult>비슷한 가치관을 공유함</S.DotResult>
-        </>
+        <S.DotResult>
+          {resultData?.strengthInRelationship ||
+            (isLoading
+              ? "관계 장점을 불러오는 중입니다."
+              : "데이터를 찾을 수 없습니다.")}
+        </S.DotResult>
       ),
       color: theme.resultYellow,
     },
@@ -40,7 +64,11 @@ const MbtiResult = ({ heartNum }: MbtiResultProps) => {
       id: 3,
       icon: <Warning />,
       title: "주의할 점",
-      text: "서로의 사고방식을 이해하기 어려움",
+      text:
+        resultData?.caution ||
+        (isLoading
+          ? "주의할 점을 불러오는 중입니다."
+          : "데이터를 찾을 수 없습니다."),
       color: theme.resultPink,
     },
     {
@@ -48,29 +76,18 @@ const MbtiResult = ({ heartNum }: MbtiResultProps) => {
       icon: <Light />,
       title: "맞춤 TIP",
       text: (
-        <>
-          <S.DotResult>
-            INFP는 ISTJ에게 즉흥적 행동 전, 상대 입장 한 번 생각하기
-          </S.DotResult>
-          <S.DotResult>ISTJ는 INFP에게 피드백은 부드럽게 전하기</S.DotResult>
-        </>
+        <S.DotResult>
+          {resultData?.tip ||
+            (isLoading
+              ? "맞춤 TIP을 불러오는 중입니다."
+              : "데이터를 찾을 수 없습니다.")}
+        </S.DotResult>
       ),
       color: theme.resultYellow,
     },
   ];
 
-  const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
-  };
-
-  const heartIcons = [];
-  for (let i = 0; i < heartNum; i++) {
-    heartIcons.push(<Heart key={`filled-${i}`} />);
-  }
-  for (let i = heartNum; i < 5; i++) {
-    heartIcons.push(<HeartEmpty key={`empty-${i}`} />);
-  }
+  const goBack = () => navigate(-1);
 
   return (
     <S.Layout>
@@ -85,9 +102,9 @@ const MbtiResult = ({ heartNum }: MbtiResultProps) => {
         <S.HeartContainer>{heartIcons}</S.HeartContainer>
       </S.TitleContainer>
       <S.CharContainer>
-        <MbtiResultChar isMine mbti="ISTP" />
+        <MbtiResultChar isMine mbti={myMbtiValue} />
         <ArrowLeftRight />
-        <MbtiResultChar mbti="ESFP" />
+        <MbtiResultChar mbti={otherMbti} />
       </S.CharContainer>
       <S.Main>
         {ResultDetail.map((detail) => (

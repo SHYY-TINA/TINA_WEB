@@ -1,21 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import Input from "../../components/input";
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
+import { useUserBasicInfo } from "@/shared/hooks/useUserBasicInfo";
 
 const Mbti = () => {
-  const [myMbti, setmyMbti] = useState("");
-  const [otherMbti, setotherMbti] = useState("");
+  const { data: Mbti } = useUserBasicInfo();
+  const [myMbti, setMyMbti] = useState("");
+  const [otherMbti, setOtherMbti] = useState("");
+
+  useEffect(() => {
+    if (Mbti?.mbti) {
+      setMyMbti(Mbti.mbti);
+    }
+  }, [Mbti]);
 
   const isValid = myMbti && otherMbti;
   const navigate = useNavigate();
+
   const handleClick = () => {
     if (isValid) {
-      navigate("/mbti-result");
+      navigate("/mbti-result", { state: { myMbtiValue: myMbti, otherMbti } });
     }
   };
+
   const goBack = () => {
     navigate(-1);
   };
@@ -38,15 +48,15 @@ const Mbti = () => {
           <Input
             placeholder="본인의 MBTI를 알려주세요 ex)ISTJ"
             value={myMbti}
-            onChange={(e) => setmyMbti(e.target.value)}
+            onChange={(e) => setMyMbti(e.target.value)}
           />
         </S.Container>
         <S.Container>
           <S.InputTitle>상대방 MBTI</S.InputTitle>
           <Input
-            placeholder="사용자의 MBTI를 알려주세요  ex)ISTJ"
+            placeholder="상대방의 MBTI를 알려주세요  ex)ENFP"
             value={otherMbti}
-            onChange={(e) => setotherMbti(e.target.value)}
+            onChange={(e) => setOtherMbti(e.target.value)}
           />
         </S.Container>
       </S.InputContainer>
