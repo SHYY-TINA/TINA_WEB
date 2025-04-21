@@ -4,7 +4,7 @@ import theme from "@/shared/style/theme";
 
 export const Layout = styled.main`
   width: 100%;
-  height: fit-content;
+  height: 100%;
   background: radial-gradient(
       83.5% 30.97% at 50.13% 50%,
       #fec9d0 0%,
@@ -15,7 +15,7 @@ export const Layout = styled.main`
 export const Header = styled.header`
   ${flex.BETWEEN}
   width: 100%;
-  padding: 53px 20px 19px 20px;
+  padding: 75px 20px 19px 20px;
   background-color: ${theme.white};
   border-radius: 0 0 12px 12px;
 `;
@@ -29,6 +29,7 @@ export const Edit = styled.span`
 `;
 export const Main = styled.div`
   ${flex.COLUMN_FLEX}
+  width: 100%;
   gap: 24px;
   padding: 24px 20px;
 `;

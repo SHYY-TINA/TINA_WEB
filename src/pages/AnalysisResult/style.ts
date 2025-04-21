@@ -16,7 +16,7 @@ export const Layout = styled.main`
 export const Header = styled.header`
   ${flex.COLUMN_FLEX}
   width: 100%;
-  padding: 53px 20px 7px 20px;
+  padding: 75px 20px 7px 20px;
   gap: 7px;
   border-radius: 0 0 16px 16px;
   background-color: ${theme.white};

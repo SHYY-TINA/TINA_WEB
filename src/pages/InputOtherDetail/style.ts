@@ -6,7 +6,7 @@ export const Layout = styled.main`
   ${flex.COLUMN_FLEX}
   width: 100%;
   height: 100%;
-  padding: 47px 20px 0 20px;
+  padding: 75px 20px 0 20px;
   background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.5) 57.26%,
