@@ -5,22 +5,19 @@ import Result from "@/components/Result";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import NoticeModal from "@/components/NoticeModal";
+import { useGetResultList } from "@/shared/hooks/useGetResultList";
+import { useGetMyResultList } from "@/shared/hooks/useGetMyResultList";
+import { useDeleteOtherAnalysis } from "@/shared/hooks/useDeleteOtherAnalysis";
+import { useDeleteMyAnalysis } from "@/shared/hooks/useDeleteMyAnalysis";
 
 const GatherResult = () => {
-  const UserDetail = [
-    { id: 1, name: "예진", mbti: "ISTJ", percent: 31 },
-    { id: 2, name: "예진", mbti: "ISFJ", percent: 31 },
-    { id: 3, name: "시연", mbti: "ISFJ", percent: 31 },
-    { id: 4, name: "윤서", mbti: "ISFJ", percent: 31 },
-    { id: 5, name: "시연", mbti: "ISFJ", percent: 31 },
-  ];
-
   const [activeButton, setActiveButton] = useState<
     "상대의 마음 보기" | "내 마음 보기" | null
   >("상대의 마음 보기");
   const [editMode, setEditMode] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalName, setModalName] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -37,13 +34,43 @@ const GatherResult = () => {
     setEditMode(!editMode);
   };
 
-  const handleTrashClick = (name: string) => {
+  const handleTrashClick = (id: number, name: string) => {
+    setSelectedId(id);
     setModalName(name);
     setIsModalVisible(true);
   };
 
   const handleModalClose = () => {
     setIsModalVisible(false);
+  };
+
+  const handleResultClick = (id: number) => {
+    const isOther = activeButton === "상대의 마음 보기";
+    navigate("/other-result", {
+      state: {
+        id,
+        isOther,
+      },
+    });
+  };
+
+  const { mutate: deleteOther } = useDeleteOtherAnalysis(selectedId ?? 0);
+  const { mutate: deleteMine } = useDeleteMyAnalysis(selectedId ?? 0);
+
+  const { data: observerResults = [] } = useGetResultList();
+  const { data: myResults = [] } = useGetMyResultList();
+
+  const resultList =
+    activeButton === "상대의 마음 보기" ? observerResults : myResults;
+
+  const handleDelete = () => {
+    if (!selectedId) return;
+    if (activeButton === "상대의 마음 보기") {
+      deleteOther();
+    } else {
+      deleteMine();
+    }
+    handleModalClose();
   };
 
   return (
@@ -76,22 +103,23 @@ const GatherResult = () => {
           />
         </S.CategoryContainer>
         <S.HeartContainer>
-          {UserDetail.map((user) => (
+          {resultList.map((user) => (
             <Result
               key={user.id}
-              name={user.name}
-              mbti={user.mbti}
-              percent={user.percent}
+              name={user.partnerName}
+              mbti={user.partnerMbti}
+              percent={user.charmScore}
               editMode={editMode}
-              onTrashClick={() => handleTrashClick(user.name)}
+              onTrashClick={() => handleTrashClick(user.id, user.partnerName)}
+              onClick={() => handleResultClick(user.id)}
             />
           ))}
         </S.HeartContainer>
       </S.Main>
 
       {isModalVisible && (
-        <div onClick={handleModalClose} style={modalBackgroundStyle}>
-          <NoticeModal name={modalName} isResult={true} />{" "}
+        <div onClick={handleDelete} style={modalBackgroundStyle}>
+          <NoticeModal name={modalName} isResult={true} />
         </div>
       )}
     </S.Layout>

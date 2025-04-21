@@ -3,9 +3,16 @@ import * as S from "./style";
 interface NoticeModalProps {
   name?: string;
   isResult: boolean;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
-const NoticeModal = ({ name, isResult }: NoticeModalProps) => {
+const NoticeModal = ({
+  name,
+  isResult,
+  onConfirm,
+  onCancel,
+}: NoticeModalProps) => {
   const ModalDetail = [
     {
       id: 1,
@@ -39,9 +46,9 @@ const NoticeModal = ({ name, isResult }: NoticeModalProps) => {
         <S.SubText>{subText}</S.SubText>
       </S.TextContainer>
       <S.ButtonContainer>
-        <S.PinkBtn>{pinkBtnText}</S.PinkBtn>
+        <S.PinkBtn onClick={onConfirm}>{pinkBtnText}</S.PinkBtn>
         <S.Line />
-        <S.BlackBtn>{blackBtnText}</S.BlackBtn>
+        <S.BlackBtn onClick={onCancel}>{blackBtnText}</S.BlackBtn>
       </S.ButtonContainer>
     </S.Layout>
   );

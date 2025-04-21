@@ -26,7 +26,7 @@ interface EmotionResponse {
   chats: Chat[];
 }
 
-export const useUploadEmotionFile = () => {
+export const useOtherAnalysis = () => {
   return useMutation({
     mutationFn: async ({ partnerName, partnerMbti, file }: EmotionRequest) => {
       const formData = new FormData();

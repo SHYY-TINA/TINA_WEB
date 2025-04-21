@@ -2,25 +2,25 @@ import { useState } from "react";
 import Button from "../../components/Button";
 import Input from "../../components/input";
 import * as S from "./style";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
-import { useOtherUserStore } from "@/shared/store/Other";
 
 const InputOtherDetail = () => {
   const [name, setName] = useState("");
   const [mbti, setMbti] = useState("");
   const [gender, setGender] = useState("");
-  const setOtherUser = useOtherUserStore((state) => state.setOtherUser);
+  const location = useLocation();
+  const isOther = location.state?.isOther ?? false;
 
   const isValid = name && mbti && gender;
   const navigate = useNavigate();
   const handleClick = () => {
     if (isValid) {
-      setOtherUser(name, mbti);
       navigate("/upload-file", {
         state: {
           partnerName: name,
           partnerMbti: mbti,
+          isOther,
         },
       });
     }

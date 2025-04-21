@@ -10,6 +10,7 @@ interface ResultProps {
   percent?: number;
   editMode?: boolean;
   onTrashClick?: () => void;
+  onClick?: () => void;
 }
 
 const Layout = styled.main`
@@ -18,6 +19,7 @@ const Layout = styled.main`
   width: 100%;
   padding: 16px 20px 9px 20px;
   border-radius: 12px;
+  cursor: pointer;
 `;
 
 const Text = styled.span`
@@ -57,13 +59,17 @@ const Result = ({
   percent,
   editMode,
   onTrashClick,
+  onClick,
 }: ResultProps) => {
   return (
-    <Layout>
+    <Layout onClick={onClick}>
       <Text>{name}</Text>
       <MBTI>{mbti}</MBTI>
       {editMode ? (
-        <TrashContainer onClick={onTrashClick}>
+        <TrashContainer onClick={(e) => {
+          e.stopPropagation();
+          onTrashClick?.();
+        }}>
           <Trash />
         </TrashContainer>
       ) : (

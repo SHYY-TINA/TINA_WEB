@@ -5,6 +5,7 @@ import { useState } from "react";
 
 interface ChatBoxProps {
   chatData: string;
+  meaning?: string; // ✅ 추가
   date: string;
   isFirstChat: boolean;
   isMyChat: boolean;
@@ -50,8 +51,9 @@ const Highlighted = styled.span`
   color: ${theme.primaryPink};
 `;
 
-const ChatBox = ({
+export const ChatBox = ({
   chatData,
+  meaning,
   date,
   isFirstChat,
   isMyChat,
@@ -63,7 +65,7 @@ const ChatBox = ({
   const showPadding = prevIsMyChat !== undefined && prevIsMyChat !== isMyChat;
 
   const handleClick = () => {
-    if (!isMyChat && enableReveal) {
+    if (!isMyChat && enableReveal && meaning) {
       setRevealed(!revealed);
     }
     onClick?.();
@@ -85,7 +87,11 @@ const ChatBox = ({
             color={isMyChat}
             onClick={handleClick}
           >
-            {revealed && enableReveal ? <Highlighted>☛ {chatData}</Highlighted> : chatData}
+            {revealed && enableReveal && meaning ? (
+              <Highlighted>☛ {meaning}</Highlighted>
+            ) : (
+              chatData
+            )}
           </ChatBoxContainer>
           <DateContainer>{date}</DateContainer>
         </>
@@ -93,5 +99,3 @@ const ChatBox = ({
     </Layout>
   );
 };
-
-export default ChatBox;

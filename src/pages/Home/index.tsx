@@ -18,15 +18,23 @@ const Home = () => {
   console.log("refreshToken:", refreshToken);
 
   const ChoiceDetail = [
-    { url: "/input-other-detail" },
-    { url: "/input-other-detail" },
-    { url: "/gather-result" },
-    { url: "/mbti-match" },
+    { id: 1, url: "/input-other-detail" },
+    { id: 2, url: "/input-other-detail" },
+    { id: 3, url: "/gather-result" },
+    { id: 4, url: "/mbti-match" },
   ];
 
   const handleNavigate = () => {
     const selected = ChoiceDetail[index];
-    if (selected) navigate(selected.url);
+    if (!selected) return;
+
+    if (selected.id === 1) {
+      navigate(selected.url, { state: { isOther: true } });
+    } else if (selected.id === 2) {
+      navigate(selected.url, { state: { isOther: false } });
+    } else {
+      navigate(selected.url);
+    }
   };
 
   useEffect(() => {

@@ -2,38 +2,109 @@ import * as S from "./style";
 import LeftArrow from "@/assets/icons/leftArrow";
 import Arrow from "@/assets/icons/arrow";
 import Heart from "@/assets/icons/heart";
-import ChatBox from "@/components/ChatBox";
-import { useNavigate } from "react-router-dom";
+import { ChatBox } from "@/components/ChatBox";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useUserBasicInfo } from "@/shared/hooks/useUserBasicInfo";
+import { useEffect } from "react";
+import { useOtherAnalysis } from "@/shared/hooks/useOtherAnalysis";
+import { useMyAnalysis } from "@/shared/hooks/useMyAnalysis";
+import {
+  MyEmotionResponse,
+  OtherEmotionResponse,
+} from "@/shared/types/emotion";
+import { useGetOtherAnalysisDetail } from "@/shared/hooks/useGetOtherAnalysisDetail";
+import { useGetMyAnalysisDetail } from "@/shared/hooks/useGetMyAnalysisDetail";
+import html2canvas from "html2canvas";
+import { useRef } from "react";
 
-interface OtherResultProps {
-  isOther?: boolean;
-}
-
-const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
+const AnalysisResult = () => {
   const navigate = useNavigate();
-  const goBack = () => {
-    navigate("/home");
+  const location = useLocation();
+  const isOther = location.state?.isOther ?? false;
+  const uplocatedFile = location.state?.uploadedFile;
+  const partnerName = location.state?.partnerName ?? "";
+  const partnerMbti = location.state?.partnerMbti ?? "";
+  const emotionId = location.state?.id ?? 0;
+  const { data: userData } = useUserBasicInfo();
+  const nickname = userData?.nickname ?? "홍길동";
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  const handleSaveAsImage = async () => {
+    if (!resultRef.current) return;
+
+    const canvas = await html2canvas(resultRef.current);
+    const dataUrl = canvas.toDataURL("image/png");
+
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = "analysis_result.png";
+    link.click();
   };
+
+  const goBack = () => navigate("/home");
+
+  const { mutate: mutateOther, data: emotionOtherData } = useOtherAnalysis();
+  const { mutate: mutateUser, data: emotionUserData } = useMyAnalysis();
+
+  const { data: emotionOtherDetailData } = useGetOtherAnalysisDetail(
+    emotionId,
+    isOther,
+  );
+  const { data: emotionMyDetailData } = useGetMyAnalysisDetail(
+    emotionId,
+    !isOther,
+  );
+
+  useEffect(() => {
+    if (uplocatedFile && partnerName && partnerMbti) {
+      if (isOther) {
+        mutateOther({ partnerName, partnerMbti, file: uplocatedFile });
+      } else {
+        mutateUser({ partnerName, partnerMbti, file: uplocatedFile });
+      }
+    }
+  }, [uplocatedFile, partnerName, partnerMbti, isOther]);
+
+  const emotionData: MyEmotionResponse | OtherEmotionResponse | undefined =
+    isOther && emotionId
+      ? emotionOtherDetailData
+      : !isOther && emotionId
+      ? emotionMyDetailData
+      : isOther
+      ? emotionOtherData
+      : emotionUserData;
+
   return (
-    <S.Layout>
+    <S.Layout ref={resultRef}>
       <S.Header>
         <S.HighHeader>
           <div style={{ position: "absolute", left: 0 }} onClick={goBack}>
             <LeftArrow />
           </div>
           <S.FromContainer>
-            시연
-            <Arrow />
-            예진
+            {isOther ? (
+              <>
+                {partnerName}
+                <Arrow />
+                {nickname}
+              </>
+            ) : (
+              <>
+                {nickname}
+                <Arrow />
+                {partnerName}
+              </>
+            )}
           </S.FromContainer>
         </S.HighHeader>
         <S.LowHeader>
           <S.HeartContainer>
             <Heart />
-            <span>98</span>%
+            <span>{emotionData?.charmScore ?? 0}</span>%
           </S.HeartContainer>
         </S.LowHeader>
       </S.Header>
+
       <S.ChatContainer>
         {isOther ? (
           <S.ChatBoxContainer>
@@ -42,71 +113,74 @@ const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
               <span>클릭해 보세요!</span>
             </S.ChatHeaderText>
             <S.Chat>
-              <ChatBox
-                chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-                date="오전 12시"
-                isFirstChat
-                isMyChat={false}
-                enableReveal
-              />
-              <ChatBox
-                chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-                date="오전 12시"
-                isFirstChat={false}
-                isMyChat={false}
-                enableReveal
-              />
+              {emotionData?.chats?.map((chat, idx) => (
+                <ChatBox
+                  key={idx}
+                  chatData={chat.text}
+                  date=""
+                  isFirstChat={idx === 0}
+                  isMyChat={!isOther}
+                  enableReveal={isOther}
+                  meaning={chat.meaning}
+                />
+              ))}
             </S.Chat>
           </S.ChatBoxContainer>
         ) : (
-          <>
-            <ChatBox
-              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-              date="오전 12시"
-              isFirstChat
-              isMyChat
-            />
-            <ChatBox
-              chatData="모든 국민은 보건에 관하여 국가의 보호를 받는다."
-              date="오전 12시"
-              isFirstChat={false}
-              isMyChat
-            />
-          </>
+          <S.Chat>
+            {emotionData?.chats?.map((chat, idx) => (
+              <ChatBox
+                key={idx}
+                chatData={chat.text}
+                date=""
+                isFirstChat={idx === 0}
+                isMyChat={!isOther}
+                enableReveal={isOther}
+                meaning={chat.meaning}
+              />
+            ))}
+          </S.Chat>
         )}
       </S.ChatContainer>
+
       <S.Main>
         <S.ResultContainer>
-          <S.Title>호감은 있는데 아직 잘 모르겠어요</S.Title>
-          <S.ResultP>
-            공무원의 직무상 불법행위로 손해를 받은 국민은 법률이 정하는 바에
-            의하여 국가 또는 공공단체에 정당한 배상을 청구할 수 있다. 이 경우
-            공무원 자신의 책임은 면제되지 아니한다. 대통령은 필요하다고 인정할
-            때에는 외교·국방·통일 기타 국가안위에 관한 중요정책을 국민투표에
-            붙일 수 있다.{" "}
-          </S.ResultP>
+          <S.Title>{emotionData?.feedbackTitle}</S.Title>
+          <S.ResultP>{emotionData?.feedbackContent}</S.ResultP>
         </S.ResultContainer>
-        <S.ResultContainer>
-          <S.Title>대화 TIP</S.Title>
-          <S.ResultY>
-            <S.TipResult>상대의 말에 진심으로 공감해 주세요</S.TipResult>
-            <S.TipResult>상대는 칭찬해 주는 것을 좋아해요</S.TipResult>
-          </S.ResultY>
-        </S.ResultContainer>
-        {isOther && (
+
+        {isOther && emotionData && "tipTitle" in emotionData && (
+          <>
+            <S.ResultContainer>
+              <S.Title>{emotionData.tipTitle}</S.Title>
+              <S.ResultY>
+                <S.TipResult>{emotionData.tipContent}</S.TipResult>
+              </S.ResultY>
+            </S.ResultContainer>
+            <S.ResultContainer>
+              <S.TextContainer>
+                <S.Title>{emotionData.cautionTitle}</S.Title>
+              </S.TextContainer>
+              <S.ResultP>
+                <S.TipResult>{emotionData.cautionContent}</S.TipResult>
+              </S.ResultP>
+            </S.ResultContainer>
+          </>
+        )}
+
+        {!isOther && emotionData && "charmPointTitle" in emotionData && (
           <S.ResultContainer>
             <S.TextContainer>
-              <S.Title>주의</S.Title>
-              <S.SubText>이 행동이 바뀌지 않으면 차일 가능성 65%</S.SubText>
+              <S.Title>{emotionData.charmPointTitle}</S.Title>
             </S.TextContainer>
             <S.ResultP>
-              <S.TipResult>상대의 말에 진심으로 공감해 주세요</S.TipResult>
-              <S.TipResult>상대는 칭찬해 주는 것을 좋아해요</S.TipResult>
+              <S.TipResult>{emotionData.charmPointContent}</S.TipResult>
             </S.ResultP>
           </S.ResultContainer>
         )}
+
         <S.BtnContainer>
-          <S.SaveBtn>결과 저장하기</S.SaveBtn>
+          <S.SaveBtn onClick={handleSaveAsImage}>결과 저장하기</S.SaveBtn>
         </S.BtnContainer>
       </S.Main>
     </S.Layout>

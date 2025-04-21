@@ -3,9 +3,11 @@ import * as S from "./style";
 import Symbol from "../../assets/illustration/symbol.png";
 import Kakao from "../../assets/icons/kakao";
 import NoticeModal from "../../components/NoticeModal";
+import { useNavigate } from "react-router-dom";
 
 const StartLogin = () => {
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleNoLoginClick = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -13,6 +15,14 @@ const StartLogin = () => {
 
   const kakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL!;
+  };
+
+  const handleConfirm = () => {
+    setShowModal(false);
+  };
+
+  const handleCancel = () => {
+    navigate("/home");
   };
 
   return (
@@ -32,7 +42,11 @@ const StartLogin = () => {
       {showModal && (
         <S.ModalOverlay onClick={handleCloseModal}>
           <div onClick={(e) => e.stopPropagation()}>
-            <NoticeModal isResult={false} />
+            <NoticeModal
+              isResult={false}
+              onConfirm={handleConfirm}
+              onCancel={handleCancel}
+            />
           </div>
         </S.ModalOverlay>
       )}

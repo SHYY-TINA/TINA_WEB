@@ -48,7 +48,7 @@ function Router() {
       path: "/other-result",
       element: (
         // <ProtectedRoute>
-        <AnalysisResult isOther />
+        <AnalysisResult />
         // </ProtectedRoute>
       ),
     },
