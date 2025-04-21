@@ -46,6 +46,7 @@ export const ChatContainer = styled.div`
   ${flex.COLUMN_FLEX}
   width: 100%;
   padding: 24px 20px;
+  gap: 4px;
 `;
 export const ChatBoxContainer = styled.div`
   ${flex.COLUMN_CENTER}
