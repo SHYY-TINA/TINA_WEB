@@ -8,7 +8,7 @@ const RouteLayout = styled.main`
   height: 100vh;
   overflow: hidden;
   ${flex.COLUMN_CENTER}
-  background-color: aliceblue;
+  background-color: #FFFCFC;
 `;
 const PhoneLayout = styled.div`
   max-width: 440px;
