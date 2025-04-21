@@ -4,17 +4,25 @@ import Input from "../../components/input";
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
+import { useOtherUserStore } from "@/shared/store/Other";
 
 const InputOtherDetail = () => {
   const [name, setName] = useState("");
   const [mbti, setMbti] = useState("");
   const [gender, setGender] = useState("");
+  const setOtherUser = useOtherUserStore((state) => state.setOtherUser);
 
   const isValid = name && mbti && gender;
   const navigate = useNavigate();
   const handleClick = () => {
     if (isValid) {
-      navigate("/upload-file");
+      setOtherUser(name, mbti);
+      navigate("/upload-file", {
+        state: {
+          partnerName: name,
+          partnerMbti: mbti,
+        },
+      });
     }
   };
   const goBack = () => {

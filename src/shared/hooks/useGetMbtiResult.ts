@@ -1,4 +1,3 @@
-// useGetMbtiResult.ts
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/shared/lib/axios";
 

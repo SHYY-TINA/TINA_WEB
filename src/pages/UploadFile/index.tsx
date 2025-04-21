@@ -1,11 +1,15 @@
 import { useRef } from "react";
 import * as S from "./style";
 import LeftArrow from "../../assets/icons/leftArrow";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUploadEmotionFile } from "@/shared/hooks/useUploadEmotionFile";
 
 const UploadFile = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const location = useLocation();
+  const { mutate, isPending } = useUploadEmotionFile();
+  const { partnerName, partnerMbti } = location.state || {};
 
   const goBack = () => navigate(-1);
 
@@ -15,9 +19,27 @@ const UploadFile = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      console.log("업로드된 파일:", file.name);
+    if (!file) {
+      alert("파일이 업로드되지 않았습니다.");
+      return;
     }
+
+    mutate(
+      {
+        partnerName,
+        partnerMbti,
+        file,
+      },
+      {
+        onSuccess: (data) => {
+          console.log("분석 결과:", data);
+          navigate("/other-result", { state: data });
+        },
+        onError: (err) => {
+          console.error("업로드 실패:", err);
+        },
+      },
+    );
   };
 
   return (
@@ -37,7 +59,9 @@ const UploadFile = () => {
       </S.MainContainer>
 
       <S.Center>
-        <S.UploadBtn onClick={handleUploadClick}>파일 업로드</S.UploadBtn>
+        <S.UploadBtn onClick={handleUploadClick} disabled={isPending}>
+          {isPending ? "업로드 중..." : "파일 업로드"}
+        </S.UploadBtn>
         <input
           type="file"
           accept=".txt"

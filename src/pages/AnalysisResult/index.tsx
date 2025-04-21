@@ -12,7 +12,7 @@ interface OtherResultProps {
 const AnalysisResult = ({ isOther = false }: OtherResultProps) => {
   const navigate = useNavigate();
   const goBack = () => {
-    navigate(-1);
+    navigate("/home");
   };
   return (
     <S.Layout>
