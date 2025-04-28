@@ -65,11 +65,17 @@ const GatherResult = () => {
 
   const handleDelete = () => {
     if (!selectedId) return;
+
+    const onSuccess = () => {
+      window.location.reload();
+    };
+
     if (activeButton === "상대의 마음 보기") {
-      deleteOther();
+      deleteOther(undefined, { onSuccess });
     } else {
-      deleteMine();
+      deleteMine(undefined, { onSuccess });
     }
+
     handleModalClose();
   };
 
