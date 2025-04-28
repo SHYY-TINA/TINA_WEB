@@ -59,10 +59,13 @@ export const ChatHeaderText = styled.div`
   font-size: 12px;
   font-weight: 500;
 `;
-export const Chat = styled.div`
+export const Chat = styled.div<{ isOther: boolean }>`
   ${flex.COLUMN_FLEX}
-  margin-right: auto;
   gap: 4px;
+  ${({ isOther }) =>
+    isOther
+      ? "margin-right: auto;"
+      : "margin-left: auto;"}
 `;
 export const Main = styled.div`
   ${flex.COLUMN_CENTER}
@@ -157,4 +160,12 @@ export const More = styled.button`
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
+`;
+export const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  font-size: 1.2rem;
+  color: #888;
 `;
