@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../../components/Button";
 import Input from "../../components/input";
 import * as S from "./style";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUpdateUserDetail } from "@/shared/hooks/useUpdateUserDetail";
 import { useUserInfoStore } from "@/shared/store/user";
 
@@ -14,12 +14,25 @@ const InputUserDetail = () => {
   const navigate = useNavigate();
   const isValid = name && mbti && gender;
 
+  const location = useLocation();
+  const isOther = location.state?.isOther;
+
   const { mutate } = useUpdateUserDetail();
 
   const setUserInfo = useUserInfoStore((state) => state.setUserInfo);
 
   const handleClick = () => {
     if (!isValid) return;
+
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (!accessToken || !refreshToken) {
+      navigate("/input-other-detail", {
+        state: { userName: name, userMbti: mbti, isOther },
+      });
+      return;
+    }
 
     mutate(
       { nickname: name, mbti },

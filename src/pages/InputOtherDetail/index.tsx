@@ -5,25 +5,46 @@ import * as S from "./style";
 import { useLocation, useNavigate } from "react-router-dom";
 import LeftArrow from "../../assets/icons/leftArrow";
 
+interface UploadFileState {
+  partnerName: string;
+  partnerMbti: string;
+  isOther: boolean;
+  userName?: string;
+  userMbti?: string;
+}
+
 const InputOtherDetail = () => {
   const [name, setName] = useState("");
   const [mbti, setMbti] = useState("");
   const [gender, setGender] = useState("");
   const location = useLocation();
   const isOther = location.state?.isOther ?? false;
+  const userName = location.state?.userName ?? "";
+  const userMbti = location.state?.userMbti ?? "";
 
   const isValid = name && mbti && gender;
   const navigate = useNavigate();
   const handleClick = () => {
-    if (isValid) {
-      navigate("/upload-file", {
-        state: {
-          partnerName: name,
-          partnerMbti: mbti,
-          isOther,
-        },
-      });
+    if (!isValid) return;
+
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    const isLoggedIn = !!accessToken && !!refreshToken;
+
+    const nextState: UploadFileState = {
+      partnerName: name,
+      partnerMbti: mbti,
+      isOther,
+    };
+
+    if (!isLoggedIn) {
+      nextState.userName = userName;
+      nextState.userMbti = userMbti;
     }
+
+    navigate("/upload-file", {
+      state: nextState,
+    });
   };
   const goBack = () => {
     navigate(-1);

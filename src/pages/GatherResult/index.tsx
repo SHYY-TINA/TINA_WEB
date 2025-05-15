@@ -5,34 +5,40 @@ import Result from "@/components/Result";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import NoticeModal from "@/components/NoticeModal";
-import { useGetResultList } from "@/shared/hooks/useGetResultList";
-import { useGetMyResultList } from "@/shared/hooks/useGetMyResultList";
-import { useDeleteOtherAnalysis } from "@/shared/hooks/useDeleteOtherAnalysis";
-import { useDeleteMyAnalysis } from "@/shared/hooks/useDeleteMyAnalysis";
+import { useGetEmotionList } from "@/shared/hooks/useGetEmotionList";
+import { useDeleteAnalysis } from "@/shared/hooks/useDeleteAnalysis";
+
+const modalBackgroundStyle: React.CSSProperties = {
+  position: "fixed",
+  width: "100%",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.10)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 9999,
+};
 
 const GatherResult = () => {
   const [activeButton, setActiveButton] = useState<
-    "상대의 마음 보기" | "내 마음 보기" | null
+    "상대의 마음 보기" | "내 마음 보기"
   >("상대의 마음 보기");
   const [editMode, setEditMode] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalName, setModalName] = useState<string>("");
+  const [modalName, setModalName] = useState("");
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
-  };
+  const goBack = () => navigate(-1);
 
   const handleButtonClick = (button: "상대의 마음 보기" | "내 마음 보기") => {
-    if (activeButton !== button) {
-      setActiveButton(button);
-    }
+    if (activeButton !== button) setActiveButton(button);
   };
 
-  const handleEditButtonClick = () => {
-    setEditMode(!editMode);
-  };
+  const handleEditButtonClick = () => setEditMode(!editMode);
 
   const handleTrashClick = (id: number, name: string) => {
     setSelectedId(id);
@@ -40,41 +46,29 @@ const GatherResult = () => {
     setIsModalVisible(true);
   };
 
-  const handleModalClose = () => {
-    setIsModalVisible(false);
-  };
+  const handleModalClose = () => setIsModalVisible(false);
 
   const handleResultClick = (id: number) => {
     const isOther = activeButton === "상대의 마음 보기";
-    navigate("/other-result", {
-      state: {
-        id,
-        isOther,
-      },
-    });
+    navigate("/result", { state: { id, isOther } });
   };
 
-  const { mutate: deleteOther } = useDeleteOtherAnalysis(selectedId ?? 0);
-  const { mutate: deleteMine } = useDeleteMyAnalysis(selectedId ?? 0);
+  const isOther = activeButton === "상대의 마음 보기";
+  const { data: resultList = [] } = useGetEmotionList(isOther);
 
-  const { data: observerResults = [] } = useGetResultList();
-  const { data: myResults = [] } = useGetMyResultList();
-
-  const resultList =
-    activeButton === "상대의 마음 보기" ? observerResults : myResults;
+  const { mutate: deleteAnalysis } = useDeleteAnalysis(
+    selectedId ?? 0,
+    isOther,
+  );
 
   const handleDelete = () => {
     if (!selectedId) return;
 
-    const onSuccess = () => {
-      window.location.reload();
-    };
-
-    if (activeButton === "상대의 마음 보기") {
-      deleteOther(undefined, { onSuccess });
-    } else {
-      deleteMine(undefined, { onSuccess });
-    }
+    deleteAnalysis(undefined, {
+      onSuccess: () => {
+        window.location.reload();
+      },
+    });
 
     handleModalClose();
   };
@@ -130,20 +124,6 @@ const GatherResult = () => {
       )}
     </S.Layout>
   );
-};
-
-const modalBackgroundStyle: React.CSSProperties = {
-  position: "fixed",
-  width: "100%",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "rgba(0, 0, 0, 0.10)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 9999,
 };
 
 export default GatherResult;

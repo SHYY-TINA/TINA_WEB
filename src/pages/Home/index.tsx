@@ -5,15 +5,14 @@ import Word from "@/assets/illustration/word";
 import UserProfile from "@/assets/icons/userProfile";
 import Choice from "@/components/Choice";
 import ProfileEdit from "@/components/ProfileEdit";
-import { useAuthStore } from "@/shared/store/auth";
 
 const Home = () => {
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const [index, setIndex] = useState(0);
   const profileRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const accessToken = useAuthStore((state) => state.accessToken);
-  const refreshToken = useAuthStore((state) => state.refreshToken);
+  const accessToken = localStorage.getItem("accessToken");
+  const refreshToken = localStorage.getItem("refreshToken");
   console.log("accessToken:", accessToken);
   console.log("refreshToken:", refreshToken);
 
@@ -27,6 +26,15 @@ const Home = () => {
   const handleNavigate = () => {
     const selected = ChoiceDetail[index];
     if (!selected) return;
+
+    const isLoggedIn = accessToken && refreshToken;
+
+    if ((selected.id === 1 || selected.id === 2) && !isLoggedIn) {
+      navigate("/input-user-detail", {
+        state: { isOther: selected.id === 1 },
+      });
+      return;
+    }
 
     if (selected.id === 1) {
       navigate(selected.url, { state: { isOther: true } });

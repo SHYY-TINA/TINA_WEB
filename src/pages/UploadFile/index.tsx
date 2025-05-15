@@ -10,6 +10,8 @@ const UploadFile = () => {
   const isOther = location.state?.isOther ?? false;
   const name = location.state?.partnerName ?? "";
   const mbti = location.state?.partnerMbti ?? "";
+  const userName = location.state?.userName ?? "";
+  const userMbti = location.state?.userMbti ?? "";
 
   const goBack = () => navigate("/home");
 
@@ -24,8 +26,15 @@ const UploadFile = () => {
       return;
     }
 
-    navigate("/other-result", {
-      state: { isOther, partnerName: name, partnerMbti:mbti , uploadedFile:file },
+    navigate("/result", {
+      state: {
+        isOther,
+        partnerName: name,
+        partnerMbti: mbti,
+        uploadedFile: file,
+        userName,
+        userMbti,
+      },
     });
   };
 
