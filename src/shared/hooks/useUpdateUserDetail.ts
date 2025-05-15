@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/shared/lib/axios";
-import { useAuthStore } from "@/shared/store/auth";
 
 interface UpdateUserDetailRequest {
   nickname: string;
@@ -8,7 +7,7 @@ interface UpdateUserDetailRequest {
 }
 
 export const useUpdateUserDetail = () => {
-  const { accessToken } = useAuthStore();
+  const accessToken = localStorage.getItem("accessToken");
 
   return useMutation({
     mutationFn: async (body: UpdateUserDetailRequest) => {

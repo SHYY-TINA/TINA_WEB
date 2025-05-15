@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/shared/lib/axios";
-import { useAuthStore } from "../store/auth";
 
 export const useUserBasicInfo = () => {
-  const { accessToken } = useAuthStore();
+  const accessToken = localStorage.getItem("accessToken");
 
   return useQuery({
     queryKey: ["user-basic-info"],

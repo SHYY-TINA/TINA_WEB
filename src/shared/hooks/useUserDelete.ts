@@ -1,11 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAuthStore } from "../store/auth";
 import { api } from "../lib/axios";
+import { useUserInfoStore } from "../store/user"; 
 
 export const useUserDelete = () => {
-  const { accessToken, clear } = useAuthStore();
+  const clearUserInfo = useUserInfoStore((state) => state.clearUserInfo);
+
   return useMutation({
     mutationFn: async () => {
+      const accessToken = localStorage.getItem("accessToken");
       await api.delete("/auth/quit", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -13,8 +15,8 @@ export const useUserDelete = () => {
       });
     },
     onSuccess: () => {
-      clear();
       localStorage.clear();
+      clearUserInfo();
       window.location.href = "/";
     },
     onError: () => {
