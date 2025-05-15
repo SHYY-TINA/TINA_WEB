@@ -28,7 +28,7 @@ const LoadingPage = () => {
   return (
     <Wrapper>
       <LoadingImage src={Loading} alt="로딩 중" />
-      <Message>분석 결과는 2~3분이 소요됩니다.</Message>
+      <Message>분석 결과는 30초~1분이 소요됩니다.</Message>
     </Wrapper>
   );
 };
