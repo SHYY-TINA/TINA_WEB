@@ -23,6 +23,7 @@ export const Edit = styled.span`
   color: ${theme.brown6};
   font-size: 12px;
   font-weight: 500;
+  cursor: pointer;
   &:hover {
     color: ${theme.primaryPink};
   }
