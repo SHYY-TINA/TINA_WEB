@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/shared/lib/axios";
-import { useAuthStore } from "@/shared/store/auth";
 
 export const useLogout = () => {
-  const { accessToken, refreshToken, clear } = useAuthStore();
+  const accessToken = localStorage.getItem("accessToken");
+  const refreshToken = localStorage.getItem("refreshToken");
   return useMutation({
     mutationFn: async () => {
       await api.post(
@@ -17,7 +17,6 @@ export const useLogout = () => {
       );
     },
     onSuccess: () => {
-      clear();
       localStorage.clear();
       window.location.href = "/";
     },
