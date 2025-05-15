@@ -6,20 +6,19 @@ import { ChatBox } from "@/components/ChatBox";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserBasicInfo } from "@/shared/hooks/useUserBasicInfo";
 import { useEffect, useRef } from "react";
-import { useOtherAnalysis } from "@/shared/hooks/useOtherAnalysis";
-import { useMyAnalysis } from "@/shared/hooks/useMyAnalysis";
-import LoadingPage from "@/components/LoadingPage";
-import html2canvas from "html2canvas";
+import { useAnalysisData } from "./useAnalysisData";
+import { ScreenshotButton } from "./ScreenshotButton";
 
 import {
   MyEmotionResponse,
   OtherEmotionResponse,
 } from "@/shared/types/emotion";
-import { useGetAnalysisDetail } from "@/shared/hooks/useGetAnalysisDetail";
+import LoadingPage from "@/components/LoadingPage";
 
-function hasCharmPointContent(
-  data: unknown,
-): data is { charmPointTitle: string; charmPointContent: string[] } {
+function hasCharmPointContent(data: unknown): data is {
+  charmPointTitle: string;
+  charmPointContent: string[];
+} {
   if (typeof data !== "object" || data === null) return false;
   const obj = data as Partial<MyEmotionResponse>;
   return (
@@ -30,9 +29,7 @@ function hasCharmPointContent(
 
 function hasTipContent(data: unknown): data is OtherEmotionResponse {
   if (typeof data !== "object" || data === null) return false;
-
   const obj = data as Partial<OtherEmotionResponse>;
-
   return (
     Array.isArray(obj.tipContent) &&
     Array.isArray(obj.cautionContent) &&
@@ -44,80 +41,57 @@ function hasTipContent(data: unknown): data is OtherEmotionResponse {
 const AnalysisResult = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const resultRef = useRef<HTMLDivElement>(null);
+
   const isOther = location.state?.isOther ?? false;
   const uploadedFile = location.state?.uploadedFile;
   const partnerName = location.state?.partnerName ?? "";
   const partnerMbti = location.state?.partnerMbti ?? "";
   const emotionId = location.state?.id ?? 0;
+  const userName = location.state?.userName ?? "";
+  const userMbti = location.state?.userMbti ?? "";
+
   const { data: userData } = useUserBasicInfo();
-  const nickname = userData?.nickname ?? "홍길동";
-  const resultRef = useRef<HTMLDivElement>(null);
+  const accessToken = localStorage.getItem("accessToken");
+  const refreshToken = localStorage.getItem("refreshToken");
 
-  const handleSaveAsImage = async () => {
-    if (!resultRef.current) return;
+  const isGuest = !accessToken || !refreshToken;
+  const nickname = isGuest
+    ? userName || "홍길동"
+    : userData?.nickname || "홍길동";
 
-    const element = resultRef.current!;
-    const originalHeight = element.style.height;
-
-    element.style.height = `${element.scrollHeight}px`;
-
-    const canvas = await html2canvas(element, {
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: "#ffffff",
-      scrollX: 0,
-      scrollY: 0,
-    });
-
-    const dataUrl = canvas.toDataURL("image/png");
-
-    const link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = "analysis_result.png";
-    link.click();
-
-    element.style.height = originalHeight;
-  };
-
-  const goBack = () => navigate("/home");
-
-  const { data: emotionDetailData } = useGetAnalysisDetail(emotionId, isOther);
-
-  const otherMutation = useOtherAnalysis();
-  const userMutation = useMyAnalysis();
-
-  const isPending = isOther
-    ? otherMutation.status === "pending"
-    : userMutation.status === "pending";
+  const { emotionData, isPending, mutate } = useAnalysisData(
+    isOther,
+    emotionId,
+    uploadedFile,
+    partnerName,
+    partnerMbti,
+    userName,
+    userMbti,
+  );
 
   useEffect(() => {
-    if (uploadedFile && partnerName && partnerMbti) {
-      if (isOther) {
-        otherMutation.mutate({ partnerName, partnerMbti, file: uploadedFile });
-      } else {
-        userMutation.mutate({ partnerName, partnerMbti, file: uploadedFile });
-      }
-    }
+    mutate();
   }, [uploadedFile, partnerName, partnerMbti, isOther]);
 
-  if (isPending) {
-    return <LoadingPage />;
-  }
+  if (isPending) return <LoadingPage />;
 
-  const emotionData =
-    (isOther ? otherMutation.data : userMutation.data) ?? emotionDetailData;
-  console.log("emotionData.chat:", emotionData?.chat);
+  const partner = emotionData?.partnerName ?? partnerName;
+
   return (
     <S.Layout ref={resultRef}>
       <S.Header>
         <S.HighHeader>
-          <div style={{ position: "absolute", left: 0 }} onClick={goBack}>
+          <div
+            style={{ position: "absolute", left: 0 }}
+            onClick={() => navigate("/home")}
+          >
             <LeftArrow />
           </div>
           <S.FromContainer>
             {isOther ? (
               <>
-                {emotionData?.partnerName}
+                {partner}
                 <Arrow />
                 {nickname}
               </>
@@ -125,11 +99,12 @@ const AnalysisResult = () => {
               <>
                 {nickname}
                 <Arrow />
-                {emotionData?.partnerName}
+                {partner}
               </>
             )}
           </S.FromContainer>
         </S.HighHeader>
+
         <S.LowHeader>
           <S.HeartContainer>
             <Heart />
@@ -140,10 +115,12 @@ const AnalysisResult = () => {
 
       <S.ChatContainer>
         <S.ChatBoxContainer>
-          <S.ChatHeaderText>
-            <span>속마음이 궁금한 말풍선을</span>
-            <span>클릭해 보세요!</span>
-          </S.ChatHeaderText>
+          {isOther && (
+            <S.ChatHeaderText>
+              <span>속마음이 궁금한 말풍선을</span>
+              <span>클릭해 보세요!</span>
+            </S.ChatHeaderText>
+          )}
           <S.Chat isOther={isOther}>
             {emotionData?.chat?.map((chat, idx) => (
               <ChatBox
@@ -189,22 +166,22 @@ const AnalysisResult = () => {
             </S.ResultContainer>
           </>
         ) : emotionData && hasCharmPointContent(emotionData) ? (
-          <>
-            <S.ResultContainer>
-              <S.TextContainer>
-                <S.Title>{emotionData.charmPointTitle}</S.Title>
-              </S.TextContainer>
-              <S.ResultP>
-                {emotionData.charmPointContent.map((item, idx) => (
-                  <S.TipResult key={idx}>{item}</S.TipResult>
-                ))}
-              </S.ResultP>
-            </S.ResultContainer>
-          </>
+          <S.ResultContainer>
+            <S.TextContainer>
+              <S.Title>{emotionData.charmPointTitle}</S.Title>
+            </S.TextContainer>
+            <S.ResultP>
+              {emotionData.charmPointContent.map((item, idx) => (
+                <S.TipResult key={idx}>{item}</S.TipResult>
+              ))}
+            </S.ResultP>
+          </S.ResultContainer>
         ) : null}
 
         <S.BtnContainer>
-          <S.SaveBtn onClick={handleSaveAsImage}>결과 저장하기</S.SaveBtn>
+          <ScreenshotButton
+            targetRef={resultRef as React.RefObject<HTMLDivElement>}
+          />
         </S.BtnContainer>
       </S.Main>
     </S.Layout>
