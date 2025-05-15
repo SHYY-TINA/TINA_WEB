@@ -12,11 +12,7 @@ import Light from "../../assets/icons/light";
 import theme from "../../shared/style/theme";
 import { useGetMbtiResult } from "@/shared/hooks/useGetMbtiResult";
 
-interface MbtiResultProps {
-  heartNum: number;
-}
-
-const MbtiResult = ({ heartNum }: MbtiResultProps) => {
+const MbtiResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { myMbtiValue, otherMbti } = location.state || {};
@@ -27,7 +23,7 @@ const MbtiResult = ({ heartNum }: MbtiResultProps) => {
   });
 
   const heartIcons = Array.from({ length: 5 }, (_, i) =>
-    i < heartNum ? (
+    i < (resultData?.heart || 0) ? (
       <Heart key={`filled-${i}`} />
     ) : (
       <HeartEmpty key={`empty-${i}`} />
@@ -98,7 +94,7 @@ const MbtiResult = ({ heartNum }: MbtiResultProps) => {
       </S.Header>
       <S.TitleContainer>
         <S.SubTitle>우리의 MBTI 궁합은..?</S.SubTitle>
-        <S.Title>친구같은 연인, 설레는 케미</S.Title>
+        <S.Title>{resultData?.title}</S.Title>
         <S.HeartContainer>{heartIcons}</S.HeartContainer>
       </S.TitleContainer>
       <S.CharContainer>
