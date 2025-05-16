@@ -1,6 +1,6 @@
 import * as S from "./style";
 import YoutHeart from "@/assets/illustration/yourHeart.png";
-import MyHeart from "@/assets/illustration/MyHeart.png";
+import MyHeart from "@/assets/illustration/myHeart.png";
 import RecordHeart from "@/assets/illustration/recordHeart.png";
 import MBTI from "@/assets/illustration/mbti.png";
 import LeftArrowBigGray from "@/assets/icons/leftArrowBigGray";
