@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Router from "./routes";
 import flex from "./shared/style/flex";
 import PhoneImg from "@/assets/illustration/phoneImg.png";
+import usePageTracking from "./shared/hooks/usePageTraking";
 
 const RouteLayout = styled.main`
   width: 100vw;
@@ -49,6 +50,7 @@ const RouterWrapper = styled.div`
 `;
 
 function App() {
+  usePageTracking();
   return (
     <RouteLayout>
       <PhoneLayout>
