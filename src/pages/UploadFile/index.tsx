@@ -19,11 +19,37 @@ const UploadFile = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
       alert("파일이 업로드되지 않았습니다.");
       return;
+    }
+
+    const fileExt = file.name.split(".").pop()?.toLowerCase();
+    let processedFile: File = file;
+
+    if (fileExt === "csv") {
+      try {
+        const text = await file.text();
+        const lines = text.split("\n").slice(1);
+
+        const messages = lines
+          .map((line) => {
+            const cells = line.split(",");
+            return cells[3]?.trim();
+          })
+          .filter((msg) => !!msg)
+          .join("\n");
+
+        const blob = new Blob([messages], { type: "text/plain" });
+        processedFile = new File([blob], file.name.replace(".csv", ".txt"), {
+          type: "text/plain",
+        });
+      } catch {
+        alert("CSV 파일 처리 중 오류가 발생했습니다.");
+        return;
+      }
     }
 
     navigate("/result", {
@@ -31,7 +57,7 @@ const UploadFile = () => {
         isOther,
         partnerName: name,
         partnerMbti: mbti,
-        uploadedFile: file,
+        uploadedFile: processedFile,
         userName,
         userMbti,
       },
@@ -50,7 +76,7 @@ const UploadFile = () => {
         <S.SubText>
           <span>카카오톡 대화방 - 메뉴 - 채팅방 설정 - 대화 내용 관리</span>
           <span>- 대화 내용 텍스트 파일로 저장 후,</span>
-          <span>.txt 파일을 업로드 해주세요</span>
+          <span>.txt 또는 .csv 파일을 업로드 해주세요</span>
         </S.SubText>
       </S.MainContainer>
 
@@ -58,7 +84,7 @@ const UploadFile = () => {
         <S.UploadBtn onClick={handleUploadClick}>파일 업로드</S.UploadBtn>
         <input
           type="file"
-          accept=".txt"
+          accept=".txt,.csv"
           ref={fileInputRef}
           onChange={handleFileChange}
           style={{ display: "none" }}
